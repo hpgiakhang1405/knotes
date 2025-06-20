@@ -1,33 +1,33 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import MainLayout from '~/layouts/MainLayout'
-import AuthLayout from '~/layouts/AuthLayout'
 
 import ErrorPage from '~/pages/ErrorPage'
 import HomePage from '~/pages/HomePage'
-import LoginPage from '~/pages/LoginPage'
-import SignUpPage from '~/pages/SignUpPage'
 import NotesPage from '~/pages/NotesPage'
+import AuthPage from '~/pages/AuthPage'
+
+const routesPath = {
+  home: '/',
+  auth: '/auth',
+  notes: '/notes'
+}
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: routesPath.home,
     element: <HomePage />,
     errorElement: <ErrorPage />
   },
   {
-    element: <AuthLayout />,
-    errorElement: <ErrorPage />,
-    children: [
-      { path: '/login', element: <LoginPage /> },
-      { path: '/signup', element: <SignUpPage /> }
-    ]
+    path: routesPath.auth,
+    element: <AuthPage />,
+    errorElement: <ErrorPage />
   },
   {
-    path: '/notes',
     element: <MainLayout />,
     errorElement: <ErrorPage />,
-    children: [{ path: '', element: <NotesPage /> }]
+    children: [{ path: routesPath.notes, element: <NotesPage /> }]
   }
 ])
 
