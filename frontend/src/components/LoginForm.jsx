@@ -58,6 +58,11 @@ const LoginForm = ({ onSubmit }) => {
             </FormItem>
           )}
         />
+        <div className="text-right mt-[-1rem]">
+          <Button type="button" variant="link" className="p-0 cursor-pointer">
+            Forgot your password?
+          </Button>
+        </div>
         <Button type="submit" size="lg" className="w-full">
           Login
         </Button>

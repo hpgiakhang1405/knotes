@@ -6,6 +6,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import PasswordInput from './PasswordInput'
+import { Checkbox } from './ui/checkbox'
+import { Label } from './ui/label'
 
 const signUpSchema = z
   .object({
@@ -22,7 +24,11 @@ const signUpSchema = z
       .regex(/[0-9]/, 'Password must contain at least one number')
       .regex(/[^a-zA-Z0-9]/, 'Password must contain at least one special character'),
 
-    confirmPassword: z.string().min(1, 'Please confirm your password')
+    confirmPassword: z.string().min(1, 'Please confirm your password'),
+
+    acceptTerms: z.literal(true, {
+      errorMap: () => ({ message: 'You must accept the terms and conditions' })
+    })
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
@@ -36,7 +42,8 @@ const SignUpForm = ({ onSubmit }) => {
       name: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      acceptTerms: false
     }
   })
 
@@ -94,6 +101,22 @@ const SignUpForm = ({ onSubmit }) => {
               </FormControl>
               <FormMessage />
             </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="acceptTerms"
+          render={({ field }) => (
+            <div className="flex items-start gap-3">
+              <Checkbox id="terms" checked={field.value} onCheckedChange={(checked) => field.onChange(!!checked)} />
+              <div className="grid gap-2">
+                <Label htmlFor="terms">Accept terms and conditions</Label>
+                <p className="text-muted-foreground text-sm">
+                  By clicking this checkbox, you agree to the terms and conditions.
+                </p>
+                <FormMessage />
+              </div>
+            </div>
           )}
         />
         <Button type="submit" size="lg" className="w-full">

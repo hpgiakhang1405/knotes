@@ -6,8 +6,9 @@ import ErrorPage from '~/pages/ErrorPage'
 import HomePage from '~/pages/HomePage'
 import NotesPage from '~/pages/NotesPage'
 import AuthPage from '~/pages/AuthPage'
+import AuthLayout from '~/layouts/AuthLayout'
 
-const routesPath = {
+export const routesPath = {
   home: '/',
   auth: '/auth',
   notes: '/notes'
@@ -20,9 +21,9 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: routesPath.auth,
-    element: <AuthPage />,
-    errorElement: <ErrorPage />
+    element: <AuthLayout />,
+    errorElement: <ErrorPage />,
+    children: [{ path: routesPath.auth, element: <AuthPage /> }]
   },
   {
     element: <MainLayout />,

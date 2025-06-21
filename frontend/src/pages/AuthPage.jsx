@@ -1,11 +1,23 @@
 import React from 'react'
-import Image from '~/components/Image'
-import LogoTitle from '~/components/LogoTitle'
-import AuthForm from '~/components/AuthForm'
+import { useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
-import AuthIllustration from '~/assets/images/auth-illustration.png'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
+import LoginForm from '~/components/LoginForm'
+import SignUpForm from '~/components/SignUpForm'
+
+const tabValues = {
+  login: 'login',
+  signup: 'signup'
+}
 
 const AuthPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const mode = searchParams.get('mode') === tabValues.signup ? tabValues.signup : tabValues.login
+
+  const handleTabChange = (value) => {
+    setSearchParams({ mode: value })
+  }
+
   const onSubmit = (data) => {
     toast('You submitted the following values', {
       description: (
@@ -17,21 +29,30 @@ const AuthPage = () => {
   }
 
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-start">
-          <LogoTitle />
-        </div>
-        <AuthForm onSubmit={onSubmit} />
+    <div className="flex flex-col flex-1 items-center justify-center space-y-4">
+      <div className="flex flex-col items-center gap-2">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          {mode === tabValues.login ? 'Welcome Back!' : "Let's Get Started!"}
+        </h1>
+        <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+          {mode === tabValues.login
+            ? 'Log in to continue where you left off.'
+            : "Just a few quick details and you're in!"}
+        </p>
       </div>
 
-      <div className="relative hidden lg:block">
-        <Image
-          src={AuthIllustration}
-          alt="auth-illustration"
-          className="absolute inset-0 m-auto w-2/3 object-contain dark:brightness-[0.2] dark:grayscale"
-        />
-      </div>
+      <Tabs defaultValue={mode} className="w-full max-w-md space-y-8" onValueChange={handleTabChange}>
+        <TabsList className="w-full">
+          <TabsTrigger value={tabValues.login}>Login</TabsTrigger>
+          <TabsTrigger value={tabValues.signup}>Sign Up</TabsTrigger>
+        </TabsList>
+        <TabsContent value={tabValues.login}>
+          <LoginForm onSubmit={onSubmit} />
+        </TabsContent>
+        <TabsContent value={tabValues.signup}>
+          <SignUpForm onSubmit={onSubmit} />
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

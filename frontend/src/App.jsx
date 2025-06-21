@@ -6,9 +6,7 @@ import { Toaster } from 'sonner'
 const App = () => {
   return (
     <>
-      <div className="container mx-auto">
-        <RouterProvider router={router} />
-      </div>
+      <RouterProvider router={router} />
       <Toaster position="top-center" richColors />
     </>
   )
