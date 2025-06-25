@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { cn } from '~/lib/utils'
-import Fallback from '~/assets/images/square-fallback.png'
+import Fallback from '~/assets/images/fallback-img.png'
 
 const Image = ({ src, alt = 'image', fallback = Fallback, className = '', ...props }) => {
   const [imgSrc, setImgSrc] = useState(src)
@@ -11,7 +11,7 @@ const Image = ({ src, alt = 'image', fallback = Fallback, className = '', ...pro
       alt={alt}
       loading="lazy"
       onError={() => setImgSrc(fallback)}
-      className={cn('w-full h-auto object-cover', className)}
+      className={cn('w-full h-auto object-cover dark:brightness-80', className)}
       {...props}
     />
   )

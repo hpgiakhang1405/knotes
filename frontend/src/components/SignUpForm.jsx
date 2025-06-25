@@ -107,16 +107,18 @@ const SignUpForm = ({ onSubmit }) => {
           control={form.control}
           name="acceptTerms"
           render={({ field }) => (
-            <div className="flex items-start gap-3">
-              <Checkbox id="terms" checked={field.value} onCheckedChange={(checked) => field.onChange(!!checked)} />
-              <div className="grid gap-2">
-                <Label htmlFor="terms">Accept terms and conditions</Label>
-                <p className="text-muted-foreground text-sm">
-                  By clicking this checkbox, you agree to the terms and conditions.
-                </p>
-                <FormMessage />
+            <FormItem>
+              <div className="flex items-start gap-3">
+                <FormControl>
+                  <Checkbox id="terms" checked={field.value} onCheckedChange={(checked) => field.onChange(!!checked)} />
+                </FormControl>
+                <div className="grid gap-2">
+                  <FormLabel htmlFor="terms">Accept terms and conditions</FormLabel>
+                  <FormDescription>By clicking this checkbox, you agree to the terms and conditions.</FormDescription>
+                  <FormMessage />
+                </div>
               </div>
-            </div>
+            </FormItem>
           )}
         />
         <Button type="submit" size="lg" className="w-full">
