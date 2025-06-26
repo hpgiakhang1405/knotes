@@ -7,11 +7,8 @@ const ThemeToggle = () => {
   const { theme, setTheme } = useTheme()
 
   const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark')
-      return
-    }
-    setTheme('light')
+    const nextTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(nextTheme)
   }
 
   return (

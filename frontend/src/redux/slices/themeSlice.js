@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const STORAGE_KEY = 'vite-ui-theme'
+const STORAGE_KEY = 'theme'
 
 const initialState = {
   theme: localStorage.getItem(STORAGE_KEY) || 'light'
@@ -12,10 +12,7 @@ const themeSlice = createSlice({
   reducers: {
     setTheme: (state, action) => {
       state.theme = action.payload
-
-      const root = document.documentElement
-      root.className = action.payload
-
+      document.documentElement.className = action.payload
       localStorage.setItem(STORAGE_KEY, action.payload)
     }
   }
