@@ -1,5 +1,5 @@
-import { Plus } from 'lucide-react'
 import React from 'react'
+import { Plus } from 'lucide-react'
 import NoteList from '~/components/NoteList'
 import SortBy from '~/components/SortBy'
 import TagFilter from '~/components/TagFilter'

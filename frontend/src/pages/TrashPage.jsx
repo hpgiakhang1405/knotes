@@ -1,5 +1,5 @@
-import { RotateCcw, Trash2 } from 'lucide-react'
 import React from 'react'
+import { RotateCcw, Trash } from 'lucide-react'
 import NoteList from '~/components/NoteList'
 import { Button } from '~/components/ui/button'
 
@@ -13,11 +13,11 @@ const TrashPage = () => {
             <RotateCcw /> Restore All
           </Button>
           <Button type="button" variant="destructive">
-            <Trash2 /> Empty Trash
+            <Trash /> Empty Trash
           </Button>
         </div>
       </div>
-      <NoteList />
+      <NoteList type="trash" />
     </div>
   )
 }
