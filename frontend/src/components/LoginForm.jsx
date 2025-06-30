@@ -6,18 +6,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import PasswordInput from './PasswordInput'
+import { emailSchema, passwordSchema } from '~/lib/schemas'
 
 const loginSchema = z.object({
-  email: z.string().trim().toLowerCase().min(1, 'Email is required').email('Invalid email address'),
-
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long')
-    .max(64, 'Password must not exceed 64 characters')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number')
-    .regex(/[^a-zA-Z0-9]/, 'Password must contain at least one special character')
+  email: emailSchema,
+  password: passwordSchema
 })
 
 const LoginForm = ({ onSubmit }) => {
@@ -39,12 +32,13 @@ const LoginForm = ({ onSubmit }) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} type="email" placeholder="Enter your email" />
+                <Input {...field} type="email" placeholder="Enter your email" autoComplete="email" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
@@ -52,17 +46,19 @@ const LoginForm = ({ onSubmit }) => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} placeholder="Enter your password" />
+                <PasswordInput {...field} placeholder="Enter your password" autoComplete="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <div className="text-right mt-[-1rem]">
           <Button type="button" variant="link" className="p-0 cursor-pointer">
             Forgot your password?
           </Button>
         </div>
+
         <Button type="submit" size="lg" className="w-full">
           Login
         </Button>
