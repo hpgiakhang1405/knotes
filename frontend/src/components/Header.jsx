@@ -6,21 +6,22 @@ import { Button } from './ui/button'
 import ThemeToggle from './ThemeToggle'
 import { SidebarTrigger } from './ui/sidebar'
 import SearchInput from './SearchInput'
+import { cn } from '~/lib/utils'
 
-const Header = ({ inMainLayout = false, onlyLogo = false }) => {
+const Header = ({ inMainLayout = false, onlyLogo = false, noSearchBox = false, className }) => {
   if (inMainLayout)
     return (
-      <header className="relative flex shrink-0 items-center gap-2 p-4 shadow-xs">
+      <header className={cn('relative flex shrink-0 items-center gap-2 p-4 border-b', className)}>
         <div className="flex items-center justify-between w-full">
           <SidebarTrigger />
-          <SearchInput placeholder="Search notes..." />
+          {!noSearchBox && <SearchInput placeholder="Search notes..." />}
           <ThemeToggle />
         </div>
       </header>
     )
 
   return (
-    <header className="p-4 md:p-6 shadow-xs">
+    <header className={cn('p-4 md:p-6 shadow-xs', className)}>
       <div className="container mx-auto flex justify-between items-center">
         <LogoTitle />
         <nav>

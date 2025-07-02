@@ -1,0 +1,136 @@
+{
+  "type": "doc",
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "The " },
+        { "type": "text", "marks": [{ "type": "bold" }], "text": "Infinity Castle" },
+        { "type": "text", "text": " (" },
+        { "type": "text", "marks": [{ "type": "italic" }], "text": "Mugen-jō" },
+        {
+          "type": "text",
+          "text": ") is the mysterious, otherworldly stronghold that houses the Upper Rank demons of the Twelve Kizuki. Constructed and manipulated by Nakime, the castle is a vast, ever-shifting domain located in an alternate dimension. Its impossible architecture, floating platforms, and eerie silence make it an unforgettable setting for the climactic battle of the series."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "After Muzan Kibutsuji is located, he uses Nakime’s Blood Demon Art to draw all the Hashira and key members of the Demon Slayer Corps into the castle. The layout of the Infinity Castle is controlled entirely by Nakime, who can alter its structure with a pluck of her biwa, separating fighters, creating traps, and shifting battlefields in real time."
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "attrs": {
+        "src": "https://cdn.oneesports.vn/cdn-data/sites/4/2024/07/Anime_DemonSlayerTrilogy_TrailerFeaturedImage.jpg",
+        "alt": "Infinity Castle visual",
+        "title": "Infinity Castle Visual"
+      }
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2 },
+      "content": [{ "type": "text", "text": "Major Battles Inside the Castle" }]
+    },
+    {
+      "type": "bulletList",
+      "content": [
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "marks": [{ "type": "bold" }], "text": "Akaza vs Giyu & Tanjiro" },
+                {
+                  "type": "text",
+                  "text": ": A fierce battle of wills and power, showcasing Akaza’s tragic past and Tanjiro’s unbreakable resolve."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "marks": [{ "type": "bold" }], "text": "Doma vs Shinobu, Inosuke & Kanao" },
+                {
+                  "type": "text",
+                  "text": ": A chilling fight against the emotionless Upper Rank 2. Shinobu's sacrifice plays a pivotal role in his downfall."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "bold" }],
+                  "text": "Kokushibo vs Muichiro, Genya, Sanemi & Gyomei"
+                },
+                {
+                  "type": "text",
+                  "text": ": Perhaps the most intense battle in the arc, as the strongest demon faces multiple Hashira in a brutal and emotional clash."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2 },
+      "content": [{ "type": "text", "text": "Themes and Symbolism" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Infinity Castle Arc is not just a battle of strength, but a clash of ideologies. Many demons reveal their tragic human pasts, challenging the black-and-white view of good versus evil. Themes of forgiveness, revenge, destiny, and legacy are heavily explored."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Each Hashira demonstrates incredible growth, both emotionally and in combat. The bond between slayers, and their willingness to sacrifice themselves for humanity, stands in stark contrast to the lonely, self-serving nature of the demons."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2 },
+      "content": [{ "type": "text", "text": "Conclusion" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "The Infinity Castle Arc is a masterpiece of storytelling, character development, and action choreography. It represents the emotional and narrative peak of "
+        },
+        { "type": "text", "marks": [{ "type": "italic" }], "text": "Demon Slayer" },
+        {
+          "type": "text",
+          "text": ", pushing each character to their limits and setting the stage for the final confrontation with Muzan Kibutsuji."
+        }
+      ]
+    }
+  ]
+}

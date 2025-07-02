@@ -1,0 +1,14 @@
+body {
+  --tt-theme-text: var(--tt-gray-light-900);
+
+  .dark & {
+    --tt-theme-text: var(--tt-gray-dark-900);
+  }
+}
+
+.simple-editor-content {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 2rem 0;
+}

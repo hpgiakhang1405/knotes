@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+@import './styles/_variables.scss';
+@import './styles/_keyframe-animations.scss';
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -119,6 +123,13 @@
   }
 }
 
+/* custom font family */
+@layer base {
+  body {
+    font-family: 'Nunito', sans-serif;
+  }
+}
+
 /* custom class */
 .truncate-2 {
   display: -webkit-box;
@@ -173,4 +184,34 @@ html * {
     max-width: var(--scrollbar-width-legacy);
     max-height: var(--scrollbar-width-legacy);
   }
+}
+
+/* placeholder styles for tiptap */
+.tiptap .is-editor-empty::before {
+  color: var(--placeholder-color);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap .is-empty::before {
+  color: var(--placeholder-color);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap .is-editor-empty,
+.tiptap .is-empty {
+  @apply truncate;
+}
+
+.tiptap .is-empty[data-placeholder]:has(> .ProseMirror-trailingBreak:only-child)::before {
+  content: attr(data-placeholder);
+}
+
+.tiptap .is-empty[data-placeholder]:has(> .ProseMirror-trailingBreak):before {
+  color: var(--placeholder-color);
 }

@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
+import TagList from './TagList'
 
 const MyNotesDropdownMenuItem = () => (
   <>
@@ -45,7 +46,7 @@ const TrashedDropdownMenuItem = () => (
   </>
 )
 
-const NoteCard = ({ className, type }) => {
+const NoteCard = ({ id, title, content, tags, createdAt, updatedAt, className, type }) => {
   return (
     <Card className={cn('relative hover:bg-primary-foreground transition-all gap-0 group select-none', className)}>
       <DropdownMenu>
@@ -71,31 +72,19 @@ const NoteCard = ({ className, type }) => {
       </DropdownMenu>
 
       <CardHeader>
-        <CardTitle className="flex flex-col gap-2">
+        <CardTitle className="flex flex-col gap-2 leading-normal">
           <div className="text-muted-foreground text-sm font-normal">Last edited: 7 days ago</div>
-          <div className="truncate-2">Note Title</div>
+          <div className="truncate-2">{title}</div>
         </CardTitle>
       </CardHeader>
       <CardContent className="truncate-2 text-muted-foreground mb-4">
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita molestiae iure cum, dolor inventore
-          reiciendis! Ut, ipsa numquam? Nam provident cupiditate sequi cum! Iusto rem eaque alias laboriosam voluptates
-          ex!
-        </p>
+        <p>{content}</p>
       </CardContent>
-      <CardFooter>
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="secondary" className="text-muted-foreground">
-            Shopping
-          </Badge>
-          <Badge variant="secondary" className="text-muted-foreground">
-            Travel
-          </Badge>
-          <Badge variant="secondary" className="text-muted-foreground">
-            Education
-          </Badge>
-        </div>
-      </CardFooter>
+      {tags && tags.length > 0 && (
+        <CardFooter>
+          <TagList list={tags} />
+        </CardFooter>
+      )}
     </Card>
   )
 }

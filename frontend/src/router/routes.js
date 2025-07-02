@@ -2,6 +2,9 @@ export const routes = {
   home: '/',
   auth: '/auth',
   notes: '/notes',
+  noteDetail: '/notes/:id',
   archived: '/archived',
-  trash: '/trash'
+  noteArchivedDetail: '/archived/:id',
+  trash: '/trash',
+  noteTrashDetail: '/trash/:id'
 }
