@@ -1,14 +1,26 @@
 import React from 'react'
 import { cn } from '~/lib/utils'
-import { ArchiveRestore, Ellipsis, RotateCcw, Trash2, X } from 'lucide-react'
+import { ArchiveRestore, Ellipsis, Pin, PinOff, RotateCcw, Trash2, X } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
-import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import TagList from './TagList'
 
-const MyNotesDropdownMenuItem = () => (
+const MyNotesDropdownMenuItem = ({ isPin }) => (
   <>
+    <DropdownMenuItem>
+      {isPin ? (
+        <>
+          <PinOff />
+          Unpin
+        </>
+      ) : (
+        <>
+          <Pin />
+          Pin
+        </>
+      )}
+    </DropdownMenuItem>
     <DropdownMenuItem>
       <ArchiveRestore />
       Archive
@@ -46,7 +58,7 @@ const TrashedDropdownMenuItem = () => (
   </>
 )
 
-const NoteCard = ({ id, title, content, tags, createdAt, updatedAt, className, type }) => {
+const NoteCard = ({ id, title, content, tags, createdAt, updatedAt, isPin, className, type }) => {
   return (
     <Card className={cn('relative hover:bg-primary-foreground transition-all gap-0 group select-none', className)}>
       <DropdownMenu>
@@ -66,10 +78,12 @@ const NoteCard = ({ id, title, content, tags, createdAt, updatedAt, className, t
           ) : type === 'trash' ? (
             <TrashedDropdownMenuItem />
           ) : (
-            <MyNotesDropdownMenuItem />
+            <MyNotesDropdownMenuItem isPin={isPin} />
           )}
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {isPin && <Pin size={20} className="absolute -top-2 -left-2 -rotate-45 text-muted-foreground" />}
 
       <CardHeader>
         <CardTitle className="flex flex-col gap-2 leading-normal">
