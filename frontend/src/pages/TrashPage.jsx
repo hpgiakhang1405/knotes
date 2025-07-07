@@ -67,7 +67,7 @@ const TrashPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Trash</h3>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button type="button" variant="outline">
             <RotateCcw /> Restore All
           </Button>

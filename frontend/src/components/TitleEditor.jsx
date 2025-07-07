@@ -1,13 +1,31 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { EditorContent, useEditor } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Text from '@tiptap/extension-text'
-import StarterKit from '@tiptap/starter-kit'
+import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
+import { useDebounce } from '~/hooks/useDebounce'
 
-const TitleEditor = ({ title, className }) => {
+const TitleEditor = ({ title, className, onEdit }) => {
+  const [rawTitle, setRawTitle] = useState(title)
+  const debouncedTitle = useDebounce(rawTitle, 1200)
+
+  const isFirstRender = useRef(true)
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+
+    if (!debouncedTitle) return
+    onEdit?.(debouncedTitle)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTitle])
+
   const titleEditor = useEditor({
+    immediatelyRender: true,
     editorProps: {
       attributes: {
         'autocomplete': 'off',
@@ -23,7 +41,6 @@ const TitleEditor = ({ title, className }) => {
       }
     },
     extensions: [
-      StarterKit,
       Document.extend({
         content: 'heading'
       }),
@@ -31,14 +48,15 @@ const TitleEditor = ({ title, className }) => {
       Heading.configure({
         levels: [1]
       }),
+      History,
       Placeholder.configure({
         placeholder: 'Untitled note...'
       })
     ],
     content: title,
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML()
-      console.log('Title updated:', html)
+      const text = editor.getText()
+      setRawTitle(text)
     }
   })
 

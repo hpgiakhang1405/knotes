@@ -6,12 +6,13 @@ const SortBy = ({ className }) => {
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <h4 className="font-semibold">Sort by:</h4>
-      <Select>
+      <Select defaultValue="default">
         <SelectTrigger className="w-40 md:w-50">
           <SelectValue placeholder="Sort notes by..." />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
+            <SelectItem value="default">Default</SelectItem>
             <SelectItem value="newest">Newest First</SelectItem>
             <SelectItem value="oldest">Oldest First</SelectItem>
             <SelectItem value="title-asc">Title A-Z</SelectItem>

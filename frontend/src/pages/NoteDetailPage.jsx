@@ -16,10 +16,22 @@ const NoteDetailPage = () => {
     console.log('Adding new tag:', data.name)
   }
 
+  const handleTitleEdit = (newTitle) => {
+    console.log('Title updated:', newTitle)
+  }
+
+  const handleContentEdit = (newContent) => {
+    console.log('Content updated:', newContent)
+  }
+
   return (
     <>
       <div className="max-w-xl mx-auto">
-        <TitleEditor className="text-2xl md:text-3xl font-bold mb-8" title="Demon Slayer: Infinity Castle Arc" />
+        <TitleEditor
+          className="text-xl md:text-2xl font-bold mb-8"
+          title="Demon Slayer: Infinity Castle Arc"
+          onEdit={handleTitleEdit}
+        />
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">
             <div className="text-muted-foreground">Created by</div>
@@ -35,7 +47,7 @@ const NoteDetailPage = () => {
             </div>
           </div>
           <div className="col-span-4">
-            <div className="text-muted-foreground">Last Modified</div>
+            <div className="text-muted-foreground">Last edited</div>
           </div>
           <div className="col-span-8">
             <div className="font-medium">23 June 2025, 14:05</div>
@@ -44,11 +56,11 @@ const NoteDetailPage = () => {
             <div className="text-muted-foreground">Tags</div>
           </div>
           <div className="col-span-8">
-            <TagList list={tags} inDetailPage onSubmit={handleAddTag} />
+            <TagList list={tags} canEdit onSubmit={handleAddTag} />
           </div>
         </div>
       </div>
-      <SimpleEditor content={content} />
+      <SimpleEditor content={content} onEdit={handleContentEdit} />
     </>
   )
 }

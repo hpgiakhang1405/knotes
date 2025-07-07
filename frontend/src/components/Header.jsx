@@ -8,10 +8,10 @@ import { SidebarTrigger } from './ui/sidebar'
 import SearchInput from './SearchInput'
 import { cn } from '~/lib/utils'
 
-const Header = ({ inMainLayout = false, onlyLogo = false, noSearchBox = false, className }) => {
+const Header = ({ inMainLayout = false, onlyLogo = false, noSearchBox = false, className, ...props }) => {
   if (inMainLayout)
     return (
-      <header className={cn('relative flex shrink-0 items-center gap-2 p-4 border-b', className)}>
+      <header className={cn('relative flex shrink-0 items-center gap-2 p-4 border-b', className)} {...props}>
         <div className="flex items-center justify-between w-full">
           <SidebarTrigger />
           {!noSearchBox && <SearchInput placeholder="Search notes..." />}
@@ -21,7 +21,7 @@ const Header = ({ inMainLayout = false, onlyLogo = false, noSearchBox = false, c
     )
 
   return (
-    <header className={cn('p-4 md:p-6 shadow-xs', className)}>
+    <header className={cn('relative p-4 md:p-6 shadow-xs', className)} {...props}>
       <div className="container mx-auto flex justify-between items-center">
         <LogoTitle />
         <nav>

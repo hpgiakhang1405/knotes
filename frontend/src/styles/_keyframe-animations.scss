@@ -1,91 +1,107 @@
 @keyframes fadeIn {
-  from {
+  0% {
     opacity: 0;
   }
-  to {
+  100% {
     opacity: 1;
   }
 }
 
 @keyframes fadeOut {
-  from {
+  0% {
     opacity: 1;
   }
-  to {
+  100% {
     opacity: 0;
   }
 }
 
 @keyframes zoomIn {
-  from {
-    transform: scale(0.95);
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+    filter: blur(2px);
   }
-  to {
+  100% {
     transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
   }
 }
 
 @keyframes zoomOut {
-  from {
+  0% {
     transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
   }
-  to {
-    transform: scale(0.95);
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+    filter: blur(2px);
   }
 }
 
 @keyframes zoom {
   0% {
+    transform: scale(0.9);
     opacity: 0;
-    transform: scale(0.95);
   }
   100% {
-    opacity: 1;
     transform: scale(1);
+    opacity: 1;
   }
 }
 
 @keyframes slideFromTop {
-  from {
-    transform: translateY(-0.5rem);
+  0% {
+    transform: translateY(-50%) scale(0.9);
+    opacity: 0;
   }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideFromRight {
-  from {
-    transform: translateX(0.5rem);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideFromLeft {
-  from {
-    transform: translateX(-0.5rem);
-  }
-  to {
-    transform: translateX(0);
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
 
 @keyframes slideFromBottom {
-  from {
-    transform: translateY(0.5rem);
+  0% {
+    transform: translateY(50%) scale(0.9);
+    opacity: 0;
   }
-  to {
-    transform: translateY(0);
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromLeft {
+  0% {
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromRight {
+  0% {
+    transform: translateX(50%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
   }
 }
 
 @keyframes spin {
-  from {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(360deg);
   }
 }

@@ -53,12 +53,17 @@ import { LinkIcon } from '~/components/tiptap-icons/link-icon'
 
 // --- Hooks ---
 import { useIsMobile } from '~/hooks/use-mobile'
+import { useCursorVisibility } from '~/hooks/use-cursor-visibility'
+import { useWindowSize } from '~/hooks/use-window-size'
 
 // --- Lib ---
 import { handleImageUpload, MAX_FILE_SIZE } from '~/lib/tiptap-utils'
 
 // --- Styles ---
 import '~/components/tiptap-templates/simple/simple-editor.scss'
+
+// --- Custom Hooks ---
+import { useDebounce } from '~/hooks/useDebounce'
 
 const MainToolbarContent = ({ onHighlighterClick, onLinkClick, isMobile }) => {
   return (
@@ -123,13 +128,30 @@ const MobileToolbarContent = ({ type, onBack }) => (
   </>
 )
 
-export function SimpleEditor({ content }) {
+export function SimpleEditor({ content, onEdit }) {
   const isMobile = useIsMobile()
+  const windowSize = useWindowSize()
   const [mobileView, setMobileView] = React.useState('main')
   const toolbarRef = React.useRef(null)
 
+  const [rawContent, setRawContent] = React.useState(JSON.stringify(content))
+  const debouncedContent = useDebounce(rawContent, 1200)
+
+  const isFirstRender = React.useRef(true)
+
+  React.useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+
+    if (!debouncedContent) return
+    onEdit?.(debouncedContent)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedContent])
+
   const editor = useEditor({
-    immediatelyRender: false,
+    immediatelyRender: true,
     editorProps: {
       attributes: {
         'autocomplete': 'off',
@@ -149,7 +171,6 @@ export function SimpleEditor({ content }) {
       Typography,
       Superscript,
       Subscript,
-
       Selection,
       ImageUploadNode.configure({
         accept: 'image/*',
@@ -167,8 +188,13 @@ export function SimpleEditor({ content }) {
     content: content,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON()
-      console.log('Editor content updated:', json)
+      setRawContent(JSON.stringify(json))
     }
+  })
+
+  const bodyRect = useCursorVisibility({
+    editor,
+    overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0
   })
 
   React.useEffect(() => {
@@ -179,7 +205,17 @@ export function SimpleEditor({ content }) {
 
   return (
     <EditorContext.Provider value={{ editor }}>
-      <Toolbar ref={toolbarRef} className="flex flex-wrap items-center justify-center mt-12 left-0">
+      <Toolbar
+        ref={toolbarRef}
+        className="flex flex-wrap items-center justify-center mt-12 left-0"
+        style={
+          isMobile
+            ? {
+                bottom: `calc(100% - ${windowSize.height - bodyRect.y}px)`
+              }
+            : {}
+        }
+      >
         {mobileView === 'main' ? (
           <MainToolbarContent
             onHighlighterClick={() => setMobileView('highlighter')}
