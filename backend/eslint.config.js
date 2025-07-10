@@ -16,8 +16,7 @@ export default defineConfig([
     },
     plugins: { js },
     rules: {
-      ...js.configs.recommended.rules,
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }]
+      ...js.configs.recommended.rules
     }
   }
 ])
