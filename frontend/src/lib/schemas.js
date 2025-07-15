@@ -15,8 +15,8 @@ export const passwordSchema = z
 
 export const confirmPasswordSchema = z.string().min(1, 'Please confirm your password')
 
-export const acceptTermsSchema = z.literal(true, {
-  errorMap: () => ({ message: 'You must accept the terms and conditions' })
+export const acceptTermsSchema = z.boolean().refine((val) => val === true, {
+  message: 'You must accept the terms and conditions'
 })
 
 export const avatarFileSchema = z
