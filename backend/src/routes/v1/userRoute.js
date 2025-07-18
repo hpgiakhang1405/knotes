@@ -1,0 +1,31 @@
+import express from 'express'
+import { userController } from '../../controllers/userController.js'
+import { validateDataMiddleware } from '../../middlewares/validateDataMiddleware.js'
+import { userValidation } from '../../validations/userValidation.js'
+import { verifyUserMiddleware } from '../../middlewares/verifyUserMiddleware.js'
+
+const Router = express.Router()
+
+Router.route('/me')
+  .get(verifyUserMiddleware, userController.getMe)
+  .delete(
+    verifyUserMiddleware,
+    validateDataMiddleware(userValidation.deleteAccountSchema),
+    userController.deleteAccount
+  )
+
+Router.patch(
+  '/me/name',
+  verifyUserMiddleware,
+  validateDataMiddleware(userValidation.changeNameSchema),
+  userController.changeName
+)
+
+Router.patch(
+  '/me/password',
+  verifyUserMiddleware,
+  validateDataMiddleware(userValidation.changePasswordSchema),
+  userController.changePassword
+)
+
+export const userRoute = Router
