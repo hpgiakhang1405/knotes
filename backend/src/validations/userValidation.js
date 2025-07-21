@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { nameSchema, passwordSchema, confirmPasswordSchema } from './schemas.js'
+import { nameSchema, passwordSchema, confirmPasswordSchema, avatarUrlSchema } from './schemas.js'
 
 const changeNameSchema = z.object({
   name: nameSchema
@@ -16,6 +16,10 @@ const changePasswordSchema = z
     message: 'New passwords do not match'
   })
 
+const changeAvatarSchema = z.object({
+  avatarUrl: avatarUrlSchema
+})
+
 const deleteAccountSchema = z.object({
   password: passwordSchema
 })
@@ -23,5 +27,6 @@ const deleteAccountSchema = z.object({
 export const userValidation = {
   changeNameSchema,
   changePasswordSchema,
-  deleteAccountSchema
+  deleteAccountSchema,
+  changeAvatarSchema
 }

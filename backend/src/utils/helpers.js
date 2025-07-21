@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
+import { ENV } from '../config/environment.js'
 
 export const generateAccessToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' })
+  return jwt.sign(payload, ENV.JWT_ACCESS_SECRET, { expiresIn: '15m' })
 }
 
 export const generateRefreshToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: '15d' })
+  return jwt.sign(payload, ENV.JWT_REFRESH_SECRET, { expiresIn: '15d' })
 }
 
 export const hashPassword = async (password) => {
@@ -38,7 +39,7 @@ export const generateResetToken = (token) => {
 }
 
 export const getResetPasswordLink = (rawToken) => {
-  return `${process.env.CLIENT_URL}/reset-password/${rawToken}`
+  return `${ENV.CLIENT_URL}/reset-password/${rawToken}`
 }
 
 export const getExpireTime = (minutes) => {

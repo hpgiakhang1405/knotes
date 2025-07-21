@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { userService } from '../services/userService.js'
+import { ENV } from '../config/environment.js'
 
 const getMe = async (req, res, next) => {
   try {
@@ -35,13 +36,25 @@ const changePassword = async (req, res, next) => {
   }
 }
 
+const changeAvatar = async (req, res, next) => {
+  try {
+    await userService.changeAvatar(req.user.userId, req.body.avatarUrl)
+
+    res.status(StatusCodes.OK).json({
+      message: 'Avatar changed successfully'
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const deleteAccount = async (req, res, next) => {
   try {
     await userService.deleteAccount(req.user.userId, req.body.password)
 
     res.clearCookie('refreshToken', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: ENV.NODE_ENV === 'production',
       sameSite: 'Strict'
     })
 
@@ -57,5 +70,6 @@ export const userController = {
   getMe,
   changeName,
   changePassword,
-  deleteAccount
+  deleteAccount,
+  changeAvatar
 }

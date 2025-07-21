@@ -28,4 +28,11 @@ Router.patch(
   userController.changePassword
 )
 
+Router.patch(
+  '/me/avatar',
+  verifyUserMiddleware,
+  validateDataMiddleware(userValidation.changeAvatarSchema),
+  userController.changeAvatar
+)
+
 export const userRoute = Router

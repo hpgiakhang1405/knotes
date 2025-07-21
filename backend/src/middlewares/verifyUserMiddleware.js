@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '../utils/ApiError.js'
+import { ENV } from '../config/environment.js'
 
 export const verifyUserMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization
@@ -11,7 +12,7 @@ export const verifyUserMiddleware = (req, res, next) => {
 
   const token = authHeader.split(' ')[1]
 
-  jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, decoded) => {
+  jwt.verify(token, ENV.JWT_ACCESS_SECRET, (err, decoded) => {
     if (err) {
       return next(new ApiError(StatusCodes.UNAUTHORIZED, 'Invalid or expired access token'))
     }

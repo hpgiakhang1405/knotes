@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { authService } from '../services/authService.js'
+import { ENV } from '../config/environment.js'
 
 const register = async (req, res, next) => {
   try {
@@ -52,7 +53,7 @@ const login = async (req, res, next) => {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: ENV.NODE_ENV === 'production',
       sameSite: 'Strict',
       maxAge: 15 * 24 * 60 * 60 * 1000 // 15 days
     })
@@ -70,7 +71,7 @@ const logout = async (req, res, next) => {
   try {
     res.clearCookie('refreshToken', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: ENV.NODE_ENV === 'production',
       sameSite: 'Strict'
     })
 

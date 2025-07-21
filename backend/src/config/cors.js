@@ -1,11 +1,12 @@
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '../utils/ApiError.js'
+import { ENV } from './environment.js'
 
-const WHITELIST_DOMAINS = [process.env.CLIENT_URL]
+const WHITELIST_DOMAINS = [ENV.CLIENT_URL]
 
 export const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin && process.env.NODE_ENV === 'development') {
+    if (!origin && ENV.NODE_ENV === 'development') {
       return callback(null, true)
     }
 

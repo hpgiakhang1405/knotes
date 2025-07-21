@@ -13,6 +13,7 @@ import {
   generateResetToken,
   getResetPasswordLink
 } from '../utils/helpers.js'
+import { ENV } from '../config/environment.js'
 
 const register = async ({ name, email, password }) => {
   const existingUser = await User.findOne({ email })
@@ -107,7 +108,7 @@ export const refreshAccessToken = async (refreshToken) => {
     throw new ApiError(StatusCodes.UNAUTHORIZED, 'Refresh token is required')
   }
 
-  const { userId } = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+  const { userId } = jwt.verify(refreshToken, ENV.JWT_REFRESH_SECRET, (err, decoded) => {
     if (err) {
       throw new ApiError(StatusCodes.UNAUTHORIZED, 'Invalid refresh token')
     }

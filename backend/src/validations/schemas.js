@@ -19,13 +19,6 @@ export const acceptTermsSchema = z.boolean().refine((val) => val === true, {
   message: 'You must accept the terms and conditions'
 })
 
-export const avatarFileSchema = z
-  .instanceof(File)
-  .refine((file) => file.size <= 5 * 1024 * 1024, {
-    message: 'Avatar must be under 5MB'
-  })
-  .refine((file) => file.type.startsWith('image/'), {
-    message: 'Only image files are accepted'
-  })
+export const avatarUrlSchema = z.string().trim().url('Invalid URL format for avatar')
 
 export const otpSchema = z.string().trim().length(6, 'OTP must be exactly 6 characters long')

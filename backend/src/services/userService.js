@@ -45,6 +45,17 @@ const changePassword = async (userId, { currentPassword, newPassword }) => {
   await user.save()
 }
 
+const changeAvatar = async (userId, avatarUrl) => {
+  const user = await User.findById(userId)
+
+  if (!user) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found')
+  }
+
+  user.avatarUrl = avatarUrl
+  await user.save()
+}
+
 const deleteAccount = async (userId, password) => {
   const user = await User.findById(userId)
 
@@ -64,5 +75,6 @@ export const userService = {
   getMe,
   changeName,
   changePassword,
-  deleteAccount
+  deleteAccount,
+  changeAvatar
 }
