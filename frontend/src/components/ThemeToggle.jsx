@@ -1,10 +1,10 @@
 import React from 'react'
 import { MoonStar, Sun } from 'lucide-react'
 import { Button } from './ui/button'
-import { useTheme } from '~/hooks/useTheme'
+import useThemeStore from '~/stores/themeStore'
 
 const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useThemeStore()
 
   const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light'
