@@ -7,7 +7,7 @@ export const verifyUserMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return next(new ApiError(StatusCodes.UNAUTHORIZED, 'Access token is missing or invalid'))
+    return next(new ApiError(StatusCodes.UNAUTHORIZED, 'Invalid or expired access token'))
   }
 
   const token = authHeader.split(' ')[1]
