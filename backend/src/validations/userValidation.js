@@ -20,13 +20,8 @@ const changeAvatarSchema = z.object({
   avatarUrl: avatarUrlSchema
 })
 
-const deleteAccountSchema = z.object({
-  password: passwordSchema
-})
-
 export const userValidation = {
   changeNameSchema,
   changePasswordSchema,
-  deleteAccountSchema,
   changeAvatarSchema
 }

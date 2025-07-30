@@ -56,16 +56,11 @@ const changeAvatar = async (userId, avatarUrl) => {
   await user.save()
 }
 
-const deleteAccount = async (userId, password) => {
+const deleteAccount = async (userId) => {
   const user = await User.findById(userId)
 
   if (!user) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found')
-  }
-
-  const isPasswordValid = await comparePassword(password, user.password)
-  if (!isPasswordValid) {
-    throw new ApiError(StatusCodes.UNAUTHORIZED, 'Password is incorrect')
   }
 
   await User.deleteOne({ _id: userId })

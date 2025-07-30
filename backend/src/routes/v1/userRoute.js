@@ -8,11 +8,7 @@ const Router = express.Router()
 
 Router.route('/me')
   .get(verifyUserMiddleware, userController.getMe)
-  .delete(
-    verifyUserMiddleware,
-    validateDataMiddleware(userValidation.deleteAccountSchema),
-    userController.deleteAccount
-  )
+  .delete(verifyUserMiddleware, userController.deleteAccount)
 
 Router.patch(
   '/me/name',

@@ -50,7 +50,7 @@ const changeAvatar = async (req, res, next) => {
 
 const deleteAccount = async (req, res, next) => {
   try {
-    await userService.deleteAccount(req.user.userId, req.body.password)
+    await userService.deleteAccount(req.user.userId)
 
     res.clearCookie('refreshToken', {
       httpOnly: true,
