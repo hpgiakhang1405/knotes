@@ -13,7 +13,7 @@ const loginSchema = z.object({
   password: passwordSchema
 })
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = ({ onSubmit, isPending }) => {
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -53,13 +53,13 @@ const LoginForm = ({ onSubmit }) => {
           )}
         />
 
-        <div className="text-right mt-[-1rem]">
+        <div className="text-right -mt-4">
           <Button type="button" variant="link" className="p-0 cursor-pointer">
             Forgot your password?
           </Button>
         </div>
 
-        <Button type="submit" size="lg" className="w-full">
+        <Button type="submit" size="lg" className="w-full" disabled={isPending}>
           Login
         </Button>
       </form>

@@ -5,7 +5,7 @@ import Sidebar from '~/components/Sidebar'
 import Header from '~/components/Header'
 import { ScrollArea } from '~/components/ui/scroll-area'
 
-const MainLayout = ({ noSearchBox }) => {
+const MainLayout = ({ noSearchBox, children }) => {
   const headerRef = useRef(null)
   const [contentHeight, setContentHeight] = useState('calc(100dvh - var(--spacing) * 4)')
 
@@ -30,9 +30,7 @@ const MainLayout = ({ noSearchBox }) => {
         <Header ref={headerRef} inMainLayout noSearchBox={noSearchBox} className="z-20" />
         <div className="flex-1 h-full" style={{ maxHeight: contentHeight }}>
           <ScrollArea className="h-full w-full">
-            <div className="p-4 sm:p-8">
-              <Outlet />
-            </div>
+            <div className="p-4 sm:p-8">{children}</div>
           </ScrollArea>
         </div>
       </SidebarInset>

@@ -27,3 +27,9 @@ export const avatarFileSchema = z
   .refine((file) => file.type.startsWith('image/'), {
     message: 'Only image files are accepted'
   })
+
+export const OTPSchema = z
+  .string()
+  .min(6, 'OTP must be 6 digits long')
+  .max(6, 'OTP must be 6 digits long')
+  .regex(/^\d{6}$/, 'OTP must be a 6-digit number')

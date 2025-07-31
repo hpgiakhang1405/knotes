@@ -18,7 +18,7 @@ const changePasswordSchema = z
     message: 'Passwords do not match'
   })
 
-const ChangePasswordForm = ({ onSubmit }) => {
+const ChangePasswordForm = ({ onSubmit, isPending }) => {
   const form = useForm({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
@@ -73,7 +73,7 @@ const ChangePasswordForm = ({ onSubmit }) => {
           )}
         />
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isPending}>
           Change Password
         </Button>
       </form>

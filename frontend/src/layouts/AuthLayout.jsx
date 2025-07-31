@@ -4,14 +4,12 @@ import Image from '~/components/Image'
 import AuthIllustration from '~/assets/images/auth-illustration.svg'
 import Header from '~/components/Header'
 
-const AuthLayout = () => {
+const AuthLayout = ({ children }) => {
   return (
     <div className="min-h-svh flex flex-col">
       <Header onlyLogo />
       <div className="grid lg:grid-cols-2 flex-1 container mx-auto">
-        <div className="p-4 md:p-6 content-center">
-          <Outlet />
-        </div>
+        <div className="p-4 md:p-6 content-center">{children}</div>
 
         <div className="relative hidden lg:block">
           <Image

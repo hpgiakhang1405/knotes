@@ -12,16 +12,16 @@ const nameSchema = z.object({
   name: znameSchema
 })
 
-const NameForm = ({ className, onSubmit }) => {
+const NameForm = ({ currentName, onSubmit, className }) => {
   const form = useForm({
     resolver: zodResolver(nameSchema),
     defaultValues: {
-      name: 'Gia Khang'
+      name: currentName
     }
   })
 
   const name = form.watch('name')
-  const debouncedName = useDebounce(name)
+  const debouncedName = useDebounce(name, 1200)
 
   const handleSubmit = async () => {
     const isValid = await form.trigger('name')

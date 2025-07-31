@@ -10,8 +10,28 @@ import {
 } from '~/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '~/components/ui/sidebar'
 import AccountDialog from './AccountDialog'
+import useUserStore from '~/stores/userStore'
+import { useAuthApi } from '~/hooks/apis/useAuthApi'
+import { toast } from 'sonner'
+import { getErrorMessage } from '~/lib/utils'
 
-const NavUser = ({ user }) => {
+const NavUser = () => {
+  const { user, clearUser } = useUserStore()
+
+  const { logoutMutation } = useAuthApi()
+
+  const handleLogout = async () => {
+    try {
+      const res = await logoutMutation.mutateAsync()
+      toast.success(res.data.message)
+      clearUser()
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    }
+  }
+
+  if (!user) return <h1>User...</h1>
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -21,10 +41,7 @@ const NavUser = ({ user }) => {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4XPQB-JL3CFyJrgdNrmGbvwR_QymtV3xv-g&s"
-                alt="Gia Khang"
-              />
+              <Avatar src={user.avatarUrl} alt={user.name} />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
@@ -47,7 +64,7 @@ const NavUser = ({ user }) => {
               </AccountDialog>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

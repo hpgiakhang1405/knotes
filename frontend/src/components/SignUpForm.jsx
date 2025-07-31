@@ -22,7 +22,7 @@ const signUpSchema = z
     message: 'Passwords do not match'
   })
 
-const SignUpForm = ({ onSubmit }) => {
+const SignUpForm = ({ onSubmit, isPending }) => {
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -113,7 +113,7 @@ const SignUpForm = ({ onSubmit }) => {
           )}
         />
 
-        <Button type="submit" size="lg" className="w-full">
+        <Button type="submit" size="lg" className="w-full" disabled={isPending}>
           Sign Up
         </Button>
       </form>

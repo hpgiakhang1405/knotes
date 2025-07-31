@@ -16,11 +16,6 @@ import NavUser from './NavUser'
 import LogoTitle from './LogoTitle'
 import { routes } from '~/router/routes'
 
-const user = {
-  name: 'Gia Khang',
-  email: 'giakhang@gmail.com'
-}
-
 const sidebarItems = [
   {
     title: 'My Notes',
@@ -74,7 +69,7 @@ const Sidebar = ({ ...props }) => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
     </ShadSidebar>
   )

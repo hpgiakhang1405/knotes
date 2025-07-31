@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useIsMobile } from '~/hooks/use-mobile'
-import { cn } from '~/lib/utils'
+import { cn, getErrorMessage } from '~/lib/utils'
 import { Label } from './ui/label'
 import { Separator } from './ui/separator'
 import { Input } from './ui/input'
@@ -30,45 +30,68 @@ import {
   AlertDialogTrigger
 } from './ui/alert-dialog'
 import ChangePasswordForm from './ChangePasswordForm'
+import useUserStore from '~/stores/userStore'
+import { useUserApi } from '~/hooks/apis/useUserApi'
+import { toast } from 'sonner'
 
 const AccountForm = ({ className }) => {
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false)
+
+  const { user, clearUser } = useUserStore()
+
+  const { queryClient, changeNameMutation, changePasswordMutation, deleteAccountMutation } = useUserApi()
+
   const handleAvatarSubmit = async (data) => {
     console.log('Avatar submitted:', data.avatar)
   }
 
   const handleNameSubmit = async (data) => {
-    console.log('Name submitted:', data.name)
+    try {
+      const res = await changeNameMutation.mutateAsync(data)
+      toast.success(res.data.message)
+      queryClient.invalidateQueries(['me'])
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    }
   }
 
   const handleDeleteAccount = async () => {
-    console.log('Account deleted')
+    try {
+      const res = await deleteAccountMutation.mutateAsync()
+      toast.success(res.data.message)
+      clearUser()
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    }
   }
 
   const handleChangePassword = async (data) => {
-    console.log('Password changed:', data)
+    try {
+      const res = await changePasswordMutation.mutateAsync(data)
+      toast.success(res.data.message)
+      setChangePasswordOpen(false)
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    }
   }
 
   return (
     <div className={cn('space-y-4', className)}>
       <div className={cn('flex flex-wrap items-start gap-4 my-4')}>
-        <AvatarForm
-          currentAvatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4XPQB-JL3CFyJrgdNrmGbvwR_QymtV3xv-g&s"
-          currentAlt="Gia Khang"
-          onSubmit={handleAvatarSubmit}
-        />
-        <NameForm onSubmit={handleNameSubmit} className="flex-1" />
+        <AvatarForm currentAvatar={user.avatarUrl} currentAlt={user.name} onSubmit={handleAvatarSubmit} />
+        <NameForm currentName={user.name} onSubmit={handleNameSubmit} className="flex-1" />
       </div>
 
       <Separator />
 
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
-        <Input disabled id="email" type="email" placeholder="Enter your email" value="giakhang@gmail.com" />
+        <Input disabled id="email" type="email" placeholder="Enter your email" value={user.email} />
       </div>
       <div className="space-y-2">
         <Label>Password</Label>
         <div className="text-muted-foreground text-sm">Change your password to login to your account.</div>
-        <Dialog>
+        <Dialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen}>
           <DialogTrigger asChild>
             <Button type="button">Change password</Button>
           </DialogTrigger>
@@ -79,7 +102,7 @@ const AccountForm = ({ className }) => {
                 To update your password, please enter your current password and choose a strong new one.
               </DialogDescription>
             </DialogHeader>
-            <ChangePasswordForm onSubmit={handleChangePassword} />
+            <ChangePasswordForm onSubmit={handleChangePassword} isPending={changePasswordMutation.isPending} />
           </DialogContent>
         </Dialog>
       </div>
@@ -91,11 +114,11 @@ const AccountForm = ({ className }) => {
         <div className="text-muted-foreground text-sm">Permanently delete the account.</div>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button type="button" variant="destructive">
+            <Button type="button" variant="destructive" disabled={deleteAccountMutation.isPending}>
               Delete Account
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent>
+          <AlertDialogContent className="md:max-w-sm">
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
