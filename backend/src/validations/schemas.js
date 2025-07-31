@@ -19,6 +19,4 @@ export const acceptTermsSchema = z.boolean().refine((val) => val === true, {
   message: 'You must accept the terms and conditions'
 })
 
-export const avatarUrlSchema = z.string().trim().url('Invalid URL format for avatar')
-
 export const otpSchema = z.string().trim().length(6, 'OTP must be exactly 6 characters long')

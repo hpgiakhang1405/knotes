@@ -38,7 +38,7 @@ const changePassword = async (req, res, next) => {
 
 const changeAvatar = async (req, res, next) => {
   try {
-    await userService.changeAvatar(req.user.userId, req.body.avatarUrl)
+    await userService.changeAvatar(req.user.userId, req.file)
 
     res.status(StatusCodes.OK).json({
       message: 'Avatar changed successfully'

@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes'
 import User from '../models/userModel.js'
 import ApiError from '../utils/ApiError.js'
 import { comparePassword, hashPassword } from '../utils/helpers.js'
+import { uploadService } from '../services/uploadService.js'
 
 const getMe = async (userId) => {
   const user = await User.findById(userId).select('-password')
@@ -45,14 +46,16 @@ const changePassword = async (userId, { currentPassword, newPassword }) => {
   await user.save()
 }
 
-const changeAvatar = async (userId, avatarUrl) => {
+const changeAvatar = async (userId, avatarFile) => {
+  const { url } = await uploadService.uploadImage(avatarFile?.buffer)
+
   const user = await User.findById(userId)
 
   if (!user) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found')
   }
 
-  user.avatarUrl = avatarUrl
+  user.avatarUrl = url
   await user.save()
 }
 
