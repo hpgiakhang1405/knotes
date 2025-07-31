@@ -39,10 +39,21 @@ const AccountForm = ({ className }) => {
 
   const { user, clearUser } = useUserStore()
 
-  const { queryClient, changeNameMutation, changePasswordMutation, deleteAccountMutation } = useUserApi()
+  const { queryClient, changeNameMutation, changePasswordMutation, changeAvatarMutation, deleteAccountMutation } =
+    useUserApi()
 
   const handleAvatarSubmit = async (data) => {
-    console.log('Avatar submitted:', data.avatar)
+    const formData = new FormData()
+    formData.append('image', data.avatar)
+
+    toast.promise(changeAvatarMutation.mutateAsync(formData), {
+      loading: 'Uploading avatar...',
+      success: (res) => {
+        queryClient.invalidateQueries(['me'])
+        return res.data.message
+      },
+      error: getErrorMessage
+    })
   }
 
   const handleNameSubmit = async (data) => {
@@ -78,7 +89,12 @@ const AccountForm = ({ className }) => {
   return (
     <div className={cn('space-y-4', className)}>
       <div className={cn('flex flex-wrap items-start gap-4 my-4')}>
-        <AvatarForm currentAvatar={user.avatarUrl} currentAlt={user.name} onSubmit={handleAvatarSubmit} />
+        <AvatarForm
+          currentAvatar={user.avatarUrl}
+          currentAlt={user.name}
+          onSubmit={handleAvatarSubmit}
+          isPending={changeAvatarMutation.isPending}
+        />
         <NameForm currentName={user.name} onSubmit={handleNameSubmit} className="flex-1" />
       </div>
 

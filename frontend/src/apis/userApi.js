@@ -16,6 +16,11 @@ const userApi = {
     return axiosClient.patch(url, data)
   },
 
+  changeAvatar: (data) => {
+    const url = '/user/me/avatar'
+    return axiosClient.patch(url, data)
+  },
+
   deleteAccount: () => {
     const url = '/user/me'
     return axiosClient.delete(url, { withCredentials: true })

@@ -6,5 +6,5 @@ export const cn = (...inputs) => {
 }
 
 export const getErrorMessage = (error, fallback = 'Something went wrong. Please try again later.') => {
-  return error?.response?.data?.message || fallback
+  return error?.response?.data?.message || error?.message || fallback
 }

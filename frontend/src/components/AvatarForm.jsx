@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -8,14 +8,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from './ui/form'
 import { Input } from './ui/input'
 import Avatar from './Avatar'
 import { avatarFileSchema } from '~/lib/schemas'
+import { getErrorMessage } from '~/lib/utils'
 
 const avatarSchema = z.object({
   avatar: avatarFileSchema.optional()
 })
 
-const AvatarForm = ({ currentAvatar = '', currentAlt = '', size = '2xl', className, onSubmit }) => {
-  const [previewUrl, setPreviewUrl] = useState(null)
-
+const AvatarForm = ({ currentAvatar = '', currentAlt = '', size = '2xl', className, onSubmit, isPending }) => {
   const form = useForm({
     resolver: zodResolver(avatarSchema),
     defaultValues: {
@@ -29,10 +28,9 @@ const AvatarForm = ({ currentAvatar = '', currentAlt = '', size = '2xl', classNa
       form.setValue('avatar', file)
       const isValid = await form.trigger('avatar')
       if (isValid) {
-        setPreviewUrl(URL.createObjectURL(file))
         await form.handleSubmit(onSubmit)()
       } else {
-        const errorMsg = form.getFieldState('avatar').error?.message || 'Something went wrong. Please try again.'
+        const errorMsg = getErrorMessage(form.getFieldState('avatar').error)
         toast.error(errorMsg)
       }
     }
@@ -48,20 +46,24 @@ const AvatarForm = ({ currentAvatar = '', currentAlt = '', size = '2xl', classNa
             <FormItem>
               <FormControl>
                 <div className="relative group rounded-full">
-                  <Avatar src={previewUrl || currentAvatar} alt={currentAlt} size={size} />
-                  <FormLabel
-                    htmlFor="avatar-upload"
-                    className="absolute inset-0 cursor-pointer flex items-center justify-center group-hover:bg-muted/60 rounded-full transition-all"
-                  >
-                    <ImageUp className="opacity-0 group-hover:opacity-100 transition-all text-foreground" size={32} />
-                    <Input
-                      id="avatar-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                  </FormLabel>
+                  <Avatar src={currentAvatar} alt={currentAlt} size={size} />
+                  {isPending ? (
+                    <div className="absolute inset-0 rounded-full bg-muted/60 transition-all" />
+                  ) : (
+                    <FormLabel
+                      htmlFor="avatar-upload"
+                      className="absolute inset-0 cursor-pointer flex items-center justify-center group-hover:bg-muted/60 rounded-full transition-all"
+                    >
+                      <ImageUp className="opacity-0 group-hover:opacity-100 transition-all text-foreground" size={32} />
+                      <Input
+                        id="avatar-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </FormLabel>
+                  )}
                 </div>
               </FormControl>
             </FormItem>

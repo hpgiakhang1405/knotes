@@ -17,6 +17,10 @@ export const useUserApi = () => {
     mutationFn: userApi.changePassword
   })
 
+  const changeAvatarMutation = useMutation({
+    mutationFn: userApi.changeAvatar
+  })
+
   const deleteAccountMutation = useMutation({
     mutationFn: userApi.deleteAccount
   })
@@ -26,6 +30,7 @@ export const useUserApi = () => {
     getMeQuery,
     changeNameMutation,
     changePasswordMutation,
+    changeAvatarMutation,
     deleteAccountMutation
   }
 }
