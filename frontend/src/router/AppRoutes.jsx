@@ -22,13 +22,22 @@ const guestRoutes = [
     path: routes.home,
     layout: null,
     layoutProps: {},
-    element: HomePage
+    element: HomePage,
+    elementProps: {}
   },
   {
     path: routes.auth,
     layout: AuthLayout,
     layoutProps: {},
-    element: AuthPage
+    element: AuthPage,
+    elementProps: {}
+  },
+  {
+    path: routes.resetPassword,
+    layout: AuthLayout,
+    layoutProps: { noIllustration: true },
+    element: AuthPage,
+    elementProps: { isResetPassword: true }
   }
 ]
 
@@ -37,37 +46,43 @@ const authRoutes = [
     path: routes.notes,
     layout: MainLayout,
     layoutProps: {},
-    element: NotesPage
+    element: NotesPage,
+    elementProps: {}
   },
   {
     path: routes.archived,
     layout: MainLayout,
     layoutProps: {},
-    element: ArchivedPage
+    element: ArchivedPage,
+    elementProps: {}
   },
   {
     path: routes.trash,
     layout: MainLayout,
     layoutProps: {},
-    element: TrashPage
+    element: TrashPage,
+    elementProps: {}
   },
   {
     path: routes.noteDetail,
     layout: MainLayout,
     layoutProps: { noSearchBox: true },
-    element: NoteDetailPage
+    element: NoteDetailPage,
+    elementProps: {}
   },
   {
     path: routes.noteArchivedDetail,
     layout: MainLayout,
     layoutProps: { noSearchBox: true },
-    element: NoteDetailPage
+    element: NoteDetailPage,
+    elementProps: {}
   },
   {
     path: routes.noteTrashDetail,
     layout: MainLayout,
     layoutProps: { noSearchBox: true },
-    element: NoteDetailPage
+    element: NoteDetailPage,
+    elementProps: {}
   }
 ]
 
@@ -80,7 +95,7 @@ const AppRoutes = () => {
           const Child = route.element
           const element = (
             <Layout {...route.layoutProps}>
-              <Child />
+              <Child {...route.elementProps} />
             </Layout>
           )
 
@@ -94,7 +109,7 @@ const AppRoutes = () => {
           const Child = route.element
           const element = (
             <Layout {...route.layoutProps}>
-              <Child />
+              <Child {...route.elementProps} />
             </Layout>
           )
 

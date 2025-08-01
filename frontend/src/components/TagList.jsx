@@ -72,7 +72,7 @@ const TagList = ({ list, className, canEdit, onSubmit }) => {
           </PopoverTrigger>
           <PopoverContent sideOffset={8}>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
+              <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
                 <FormField
                   control={form.control}
                   name="name"

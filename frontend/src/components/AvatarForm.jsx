@@ -38,7 +38,7 @@ const AvatarForm = ({ currentAvatar = '', currentAlt = '', size = '2xl', classNa
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+      <form noValidate onSubmit={form.handleSubmit(onSubmit)} className={className}>
         <FormField
           control={form.control}
           name="avatar"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
 import LoginForm from '~/components/LoginForm'
@@ -8,13 +8,16 @@ import VerifyOTPDialog from '~/components/VerifyOTPDialog'
 import { useAuthApi } from '~/hooks/apis/useAuthApi'
 import { getErrorMessage } from '~/lib/utils'
 import useUserStore from '~/stores/userStore'
+import ForgotPasswordDialog from '~/components/ForgotPasswordDialog'
+import ResetPasswordForm from '~/components/ResetPasswordForm'
+import { routes } from '~/router/routes'
 
 const tabValues = {
   login: 'login',
   signup: 'signup'
 }
 
-const AuthPage = () => {
+const AuthPage = ({ isResetPassword }) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const mode = searchParams.get('mode') === tabValues.signup ? tabValues.signup : tabValues.login
 
@@ -22,7 +25,19 @@ const AuthPage = () => {
   const [verifyPassword, setVerifyPassword] = useState('')
   const [verifyOpen, setVerifyOpen] = useState(false)
 
-  const { signupMutation, loginMutation, verifyOTPMutation, resendOtpMutation } = useAuthApi()
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
+
+  const { resetToken } = useParams()
+  const navigate = useNavigate()
+
+  const {
+    signupMutation,
+    loginMutation,
+    verifyOTPMutation,
+    resendOtpMutation,
+    forgotPasswordMutation,
+    resetPasswordMutation
+  } = useAuthApi()
 
   const { setToken } = useUserStore()
 
@@ -92,6 +107,43 @@ const AuthPage = () => {
     }
   }
 
+  const handleForgotPassword = async (data) => {
+    try {
+      const res = await forgotPasswordMutation.mutateAsync(data)
+      toast.success(res.data.message)
+      setIsForgotPassword(false)
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    }
+  }
+
+  const handleResetPassword = async (data) => {
+    try {
+      const res = await resetPasswordMutation.mutateAsync({ resetToken, data })
+      toast.success(res.data.message)
+      navigate(routes.auth)
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    }
+  }
+
+  if (isResetPassword)
+    return (
+      <>
+        <div className="flex flex-col flex-1 items-center justify-center space-y-12">
+          <div className="flex flex-col items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Reset Your Password</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+              Please enter your new password below. Make sure it meets the security requirements.
+            </p>
+          </div>
+          <div className="w-full max-w-md">
+            <ResetPasswordForm onSubmit={handleResetPassword} isPending={resetPasswordMutation.isPending} />
+          </div>
+        </div>
+      </>
+    )
+
   return (
     <>
       <div className="flex flex-col flex-1 items-center justify-center space-y-4">
@@ -112,7 +164,11 @@ const AuthPage = () => {
             <TabsTrigger value={tabValues.signup}>Sign Up</TabsTrigger>
           </TabsList>
           <TabsContent value={tabValues.login}>
-            <LoginForm onSubmit={handleLogin} isPending={loginMutation.isPending} />
+            <LoginForm
+              onSubmit={handleLogin}
+              isPending={loginMutation.isPending}
+              setIsForgotPassword={setIsForgotPassword}
+            />
           </TabsContent>
           <TabsContent value={tabValues.signup}>
             <SignUpForm onSubmit={handleSignUp} isPending={signupMutation.isPending} />
@@ -128,6 +184,15 @@ const AuthPage = () => {
           onSubmit={handleVerifyOTP}
           onResend={handleResendOTP}
           isPending={verifyOTPMutation.isPending || resendOtpMutation.isPending || loginMutation.isPending}
+        />
+      )}
+
+      {isForgotPassword && (
+        <ForgotPasswordDialog
+          open={isForgotPassword}
+          onOpenChange={setIsForgotPassword}
+          onSubmit={handleForgotPassword}
+          isPending={forgotPasswordMutation.isPending}
         />
       )}
     </>

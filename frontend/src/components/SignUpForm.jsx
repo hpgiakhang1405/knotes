@@ -36,7 +36,7 @@ const SignUpForm = ({ onSubmit, isPending }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
+      <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
         <FormField
           control={form.control}
           name="name"

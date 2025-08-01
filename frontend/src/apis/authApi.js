@@ -24,6 +24,14 @@ const authApi = {
   logout: () => {
     const url = '/auth/logout'
     return axiosClient.post(url, {}, { withCredentials: true })
+  },
+  forgotPassword: (data) => {
+    const url = '/auth/forgot-password'
+    return axiosClient.post(url, data)
+  },
+  resetPassword: ({ resetToken, data }) => {
+    const url = `/auth/reset-password/${resetToken}`
+    return axiosClient.post(url, data)
   }
 }
 

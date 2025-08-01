@@ -13,7 +13,7 @@ const loginSchema = z.object({
   password: passwordSchema
 })
 
-const LoginForm = ({ onSubmit, isPending }) => {
+const LoginForm = ({ onSubmit, isPending, setIsForgotPassword }) => {
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -24,7 +24,7 @@ const LoginForm = ({ onSubmit, isPending }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
+      <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
         <FormField
           control={form.control}
           name="email"
@@ -54,7 +54,7 @@ const LoginForm = ({ onSubmit, isPending }) => {
         />
 
         <div className="text-right -mt-4">
-          <Button type="button" variant="link" className="p-0 cursor-pointer">
+          <Button type="button" variant="link" className="p-0 cursor-pointer" onClick={() => setIsForgotPassword(true)}>
             Forgot your password?
           </Button>
         </div>

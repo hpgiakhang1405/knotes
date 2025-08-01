@@ -7,9 +7,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import PasswordInput from './PasswordInput'
 import { Button } from './ui/button'
 
-const changePasswordSchema = z
+const resetPasswordSchema = z
   .object({
-    currentPassword: passwordSchema,
     newPassword: passwordSchema,
     confirmNewPassword: confirmPasswordSchema
   })
@@ -18,11 +17,10 @@ const changePasswordSchema = z
     message: 'Passwords do not match'
   })
 
-const ChangePasswordForm = ({ onSubmit, isPending }) => {
+const ResetPasswordForm = ({ onSubmit, isPending }) => {
   const form = useForm({
-    resolver: zodResolver(changePasswordSchema),
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      currentPassword: '',
       newPassword: '',
       confirmNewPassword: ''
     }
@@ -31,20 +29,6 @@ const ChangePasswordForm = ({ onSubmit, isPending }) => {
   return (
     <Form {...form}>
       <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
-        <FormField
-          control={form.control}
-          name="currentPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Current Password</FormLabel>
-              <FormControl>
-                <PasswordInput {...field} placeholder="Enter your current password" autoComplete="current-password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <FormField
           control={form.control}
           name="newPassword"
@@ -74,11 +58,11 @@ const ChangePasswordForm = ({ onSubmit, isPending }) => {
         />
 
         <Button type="submit" size="lg" className="w-full" disabled={isPending}>
-          Change Password
+          Reset Password
         </Button>
       </form>
     </Form>
   )
 }
 
-export default ChangePasswordForm
+export default ResetPasswordForm

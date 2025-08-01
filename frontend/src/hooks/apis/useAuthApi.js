@@ -28,6 +28,14 @@ export const useAuthApi = () => {
     mutationFn: authApi.logout
   })
 
+  const forgotPasswordMutation = useMutation({
+    mutationFn: authApi.forgotPassword
+  })
+
+  const resetPasswordMutation = useMutation({
+    mutationFn: authApi.resetPassword
+  })
+
   return {
     queryClient,
     signupMutation,
@@ -35,6 +43,8 @@ export const useAuthApi = () => {
     verifyOTPMutation,
     resendOtpMutation,
     refreshTokenMutation,
-    logoutMutation
+    logoutMutation,
+    forgotPasswordMutation,
+    resetPasswordMutation
   }
 }

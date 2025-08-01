@@ -23,7 +23,7 @@ const OTPForm = ({ onSubmit, onResend, isPending }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
+      <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
         <FormField
           control={form.control}
           name="otp"

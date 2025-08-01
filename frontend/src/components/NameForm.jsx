@@ -44,7 +44,7 @@ const NameForm = ({ currentName, onSubmit, className }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn('w-full', className)}>
+      <form noValidate onSubmit={form.handleSubmit(onSubmit)} className={cn('w-full', className)}>
         <FormField
           control={form.control}
           name="name"
