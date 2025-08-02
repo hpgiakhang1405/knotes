@@ -14,6 +14,7 @@ import {
   getResetPasswordLink
 } from '../utils/helpers.js'
 import { ENV } from '../config/environment.js'
+import { emailService } from './emailService.js'
 
 const register = async ({ name, email, password }) => {
   const existingUser = await User.findOne({ email })
@@ -23,8 +24,10 @@ const register = async ({ name, email, password }) => {
   }
 
   const hashedPassword = await hashPassword(password)
-  const hashedOtp = generateAndHashOTP()
+  const { otp, hashedOtp } = generateAndHashOTP()
   const otpExpires = getExpireTime(5)
+
+  await emailService.sendVerificationEmail(email, name, otp)
 
   const user = new User({
     name,
@@ -65,8 +68,10 @@ const resendOtp = async ({ email }) => {
 
   if (user.isVerified) throw new ApiError(StatusCodes.BAD_REQUEST, 'User is already verified')
 
-  const hashedOtp = generateAndHashOTP()
+  const { otp, hashedOtp } = generateAndHashOTP()
   const otpExpires = getExpireTime(5)
+
+  await emailService.sendVerificationEmail(email, user.name, otp)
 
   user.otp = hashedOtp
   user.otpExpires = otpExpires
@@ -83,8 +88,10 @@ const login = async ({ email, password }) => {
 
   if (!user.isVerified) {
     if (!user.otp || !user.otpExpires || user.otpExpires < new Date()) {
-      const hashedOtp = generateAndHashOTP()
+      const { otp, hashedOtp } = generateAndHashOTP()
       const otpExpires = getExpireTime(5)
+
+      await emailService.sendVerificationEmail(email, user.name, otp)
 
       user.otp = hashedOtp
       user.otpExpires = otpExpires
@@ -132,13 +139,13 @@ const forgotPassword = async (email) => {
   const { rawToken, hashedToken } = generateResetToken()
   const resetPasswordExpires = getExpireTime(10)
 
+  const resetLink = getResetPasswordLink(rawToken)
+  await emailService.sendResetPasswordEmail(email, user.name, resetLink)
+
   user.resetPasswordToken = hashedToken
   user.resetPasswordExpires = resetPasswordExpires
 
   await user.save()
-
-  const resetLink = getResetPasswordLink(rawToken)
-  console.log(resetLink)
 }
 
 const resetPassword = async (rawToken, { newPassword }) => {

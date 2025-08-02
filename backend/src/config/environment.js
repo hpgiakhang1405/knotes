@@ -11,7 +11,9 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string(),
   CLOUDINARY_CLOUD_NAME: z.string(),
   CLOUDINARY_API_KEY: z.string(),
-  CLOUDINARY_API_SECRET: z.string()
+  CLOUDINARY_API_SECRET: z.string(),
+  EMAIL_USERNAME: z.string(),
+  EMAIL_PASSWORD: z.string()
 })
 
 const env = envSchema.parse(process.env)

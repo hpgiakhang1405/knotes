@@ -23,8 +23,7 @@ export const comparePassword = async (password, hashedPassword) => {
 export const generateAndHashOTP = () => {
   const otp = crypto.randomInt(0, 1000000).toString().padStart(6, '0')
   const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex')
-  console.log(otp)
-  return hashedOtp
+  return { otp, hashedOtp }
 }
 
 export const compareOtp = (inputOtp, storedOtp) => {
