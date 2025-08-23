@@ -27,8 +27,6 @@ const register = async ({ name, email, password }) => {
   const { otp, hashedOtp } = generateAndHashOTP()
   const otpExpires = getExpireTime(5)
 
-  await emailService.sendVerificationEmail(email, name, otp)
-
   const user = new User({
     name,
     email,
@@ -38,6 +36,7 @@ const register = async ({ name, email, password }) => {
   })
 
   await user.save()
+  await emailService.sendVerificationEmail(email, name, otp)
 }
 
 const verifyOtp = async ({ email, otp }) => {
@@ -71,12 +70,11 @@ const resendOtp = async ({ email }) => {
   const { otp, hashedOtp } = generateAndHashOTP()
   const otpExpires = getExpireTime(5)
 
-  await emailService.sendVerificationEmail(email, user.name, otp)
-
   user.otp = hashedOtp
   user.otpExpires = otpExpires
 
   await user.save()
+  await emailService.sendVerificationEmail(email, user.name, otp)
 }
 
 const login = async ({ email, password }) => {
@@ -91,12 +89,11 @@ const login = async ({ email, password }) => {
       const { otp, hashedOtp } = generateAndHashOTP()
       const otpExpires = getExpireTime(5)
 
-      await emailService.sendVerificationEmail(email, user.name, otp)
-
       user.otp = hashedOtp
       user.otpExpires = otpExpires
 
       await user.save()
+      await emailService.sendVerificationEmail(email, user.name, otp)
     }
 
     return {
@@ -140,12 +137,12 @@ const forgotPassword = async (email) => {
   const resetPasswordExpires = getExpireTime(10)
 
   const resetLink = getResetPasswordLink(rawToken)
-  await emailService.sendResetPasswordEmail(email, user.name, resetLink)
 
   user.resetPasswordToken = hashedToken
   user.resetPasswordExpires = resetPasswordExpires
 
   await user.save()
+  await emailService.sendResetPasswordEmail(email, user.name, resetLink)
 }
 
 const resetPassword = async (rawToken, { newPassword }) => {
