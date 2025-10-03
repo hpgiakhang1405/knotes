@@ -1,6 +1,8 @@
 import { StatusCodes } from 'http-status-codes'
 import { userService } from '../services/userService.js'
+import { noteService } from '../services/noteService.js'
 import { ENV } from '../config/environment.js'
+import mongoose from 'mongoose'
 
 const getMe = async (req, res, next) => {
   try {
@@ -49,8 +51,15 @@ const changeAvatar = async (req, res, next) => {
 }
 
 const deleteAccount = async (req, res, next) => {
+  const session = await mongoose.startSession()
+  session.startTransaction()
+
   try {
-    await userService.deleteAccount(req.user.userId)
+    await userService.deleteAccount(req.user.userId, session)
+    await noteService.deleteAll(req.user.userId, session)
+
+    await session.commitTransaction()
+    session.endSession()
 
     res.clearCookie('refreshToken', {
       httpOnly: true,
@@ -62,6 +71,8 @@ const deleteAccount = async (req, res, next) => {
       message: 'Account deleted successfully'
     })
   } catch (error) {
+    await session.abortTransaction()
+    session.endSession()
     next(error)
   }
 }

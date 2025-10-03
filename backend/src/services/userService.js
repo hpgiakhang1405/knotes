@@ -59,14 +59,11 @@ const changeAvatar = async (userId, avatarFile) => {
   await user.save()
 }
 
-const deleteAccount = async (userId) => {
-  const user = await User.findById(userId)
-
+const deleteAccount = async (userId, session) => {
+  const user = await User.findByIdAndDelete(userId, { session })
   if (!user) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found')
   }
-
-  await User.deleteOne({ _id: userId })
 }
 
 export const userService = {

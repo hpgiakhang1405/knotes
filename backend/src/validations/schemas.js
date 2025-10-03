@@ -20,3 +20,26 @@ export const acceptTermsSchema = z.boolean().refine((val) => val === true, {
 })
 
 export const otpSchema = z.string().trim().length(6, 'OTP must be exactly 6 characters long')
+
+export const titleSchema = z
+  .string()
+  .trim()
+  .min(1, 'Title is required')
+  .max(100, 'Title must not exceed 100 characters')
+  .default('Untitled')
+
+export const contentSchema = z.string().default('')
+
+export const tagsSchema = z
+  .array(z.string().trim().min(1, 'Tag cannot be empty'))
+  .max(10, 'You can add up to 10 tags')
+  .default([])
+
+export const colorSchema = z
+  .string()
+  .regex(/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/, 'Color must be a valid hex code')
+  .default('#FFFFFF')
+
+export const isArchivedSchema = z.boolean().default(false)
+
+export const isPinnedSchema = z.boolean().default(false)
