@@ -4,8 +4,27 @@ import Note from '../models/noteModel.js'
 import ApiError from '../utils/ApiError.js'
 import mongoose from 'mongoose'
 
-const getAll = async (userId) => {
-  const notes = await Note.find({ userId: userId })
+const getAll = async (userId, sortBy, order, tags, search) => {
+  const sortOrder = order?.toLowerCase() === 'asc' ? 1 : -1
+
+  const validSortFields = ['createdAt', 'title']
+  const sortField = validSortFields.includes(sortBy) ? sortBy : 'createdAt'
+
+  const filter = { userId }
+
+  if (tags && tags.length > 0) {
+    const tagArray = Array.isArray(tags) ? tags : tags.split(',').map((tag) => tag.trim())
+    const regexTags = tagArray.map((tag) => new RegExp(`^${tag}$`, 'i'))
+
+    filter.tags = { $in: regexTags }
+  }
+
+  if (search) {
+    const regex = new RegExp(search, 'i')
+    filter.$or = [{ title: regex }, { content: regex }, { tags: regex }]
+  }
+
+  const notes = await Note.find(filter).sort({ [sortField]: sortOrder })
   return notes
 }
 
