@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
-import User from '../models/userModel.js'
 import Note from '../models/noteModel.js'
+import User from '../models/userModel.js'
 import ApiError from '../utils/ApiError.js'
 import mongoose from 'mongoose'
 
