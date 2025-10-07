@@ -4,8 +4,8 @@ import { noteService } from '../services/noteService.js'
 const getAll = async (req, res, next) => {
   try {
     const userId = req.user.userId
-    const { sortBy, order, tags, search } = req.query
-    const notes = await noteService.getAll(userId, sortBy, order, tags, search)
+    const { sortBy, order, tags, search, state } = req.query
+    const notes = await noteService.getAll(userId, sortBy, order, tags, search, state)
 
     res.status(StatusCodes.OK).json({
       message: 'Notes fetched successfully',
@@ -75,15 +75,15 @@ const pinNote = async (req, res, next) => {
   }
 }
 
-const archiveNote = async (req, res, next) => {
+const updateState = async (req, res, next) => {
   try {
     const userId = req.user.userId
     const noteId = req.params.id
-    const { isArchived } = req.body
-    const result = await noteService.archiveNote(userId, noteId, isArchived)
+    const { state } = req.body
+    await noteService.updateState(userId, noteId, state)
 
     res.status(StatusCodes.OK).json({
-      message: result ? 'Note archived successfully' : 'Note unarchived successfully'
+      message: 'Note state updated successfully'
     })
   } catch (error) {
     next(error)
@@ -150,15 +150,43 @@ const updateTags = async (req, res, next) => {
   }
 }
 
+const restoreNotesFromTrash = async (req, res, next) => {
+  try {
+    const userId = req.user.userId
+    const count = await noteService.restoreNotesFromTrash(userId)
+
+    res.status(StatusCodes.OK).json({
+      message: `${count} notes restored from trash successfully`
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const emptyTrash = async (req, res, next) => {
+  try {
+    const userId = req.user.userId
+    const count = await noteService.emptyTrash(userId)
+
+    res.status(StatusCodes.OK).json({
+      message: `${count} notes deleted from trash successfully`
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const noteController = {
   getAll,
   create,
   getOne,
   deleteOne,
   pinNote,
-  archiveNote,
+  updateState,
   updateTitle,
   updateContent,
   updateColor,
-  updateTags
+  updateTags,
+  restoreNotesFromTrash,
+  emptyTrash
 }

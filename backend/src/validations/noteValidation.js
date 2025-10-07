@@ -1,21 +1,21 @@
 import { z } from 'zod'
-import { titleSchema, contentSchema, tagsSchema, colorSchema, isArchivedSchema, isPinnedSchema } from './schemas.js'
+import { titleSchema, contentSchema, tagsSchema, colorSchema, isPinnedSchema, stateSchema } from './schemas.js'
 
 const createNoteSchema = z.object({
   title: titleSchema,
   content: contentSchema,
   tags: tagsSchema,
   color: colorSchema,
-  isArchived: isArchivedSchema,
-  isPinned: isPinnedSchema
+  isPinned: isPinnedSchema,
+  state: stateSchema
 })
 
 const pinNoteSchema = z.object({
   isPinned: isPinnedSchema
 })
 
-const archiveNoteSchema = z.object({
-  isArchived: isArchivedSchema
+const updateStateSchema = z.object({
+  state: stateSchema
 })
 
 const updateTitleSchema = z.object({
@@ -37,7 +37,7 @@ const updateTagsSchema = z.object({
 export const noteValidation = {
   createNoteSchema,
   pinNoteSchema,
-  archiveNoteSchema,
+  updateStateSchema,
   updateTitleSchema,
   updateContentSchema,
   updateColorSchema,

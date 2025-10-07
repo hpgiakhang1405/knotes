@@ -21,10 +21,10 @@ Router.patch(
   noteController.pinNote
 )
 Router.patch(
-  '/:id/archive',
-  validateDataMiddleware(noteValidation.archiveNoteSchema),
+  '/:id/state',
+  validateDataMiddleware(noteValidation.updateStateSchema),
   verifyUserMiddleware,
-  noteController.archiveNote
+  noteController.updateState
 )
 Router.patch(
   '/:id/title',
@@ -50,5 +50,8 @@ Router.patch(
   verifyUserMiddleware,
   noteController.updateTags
 )
+
+Router.patch('/trash/restore', verifyUserMiddleware, noteController.restoreNotesFromTrash)
+Router.delete('/trash/empty', verifyUserMiddleware, noteController.emptyTrash)
 
 export const noteRoute = Router

@@ -4,7 +4,7 @@ import Note from '../models/noteModel.js'
 import ApiError from '../utils/ApiError.js'
 import mongoose from 'mongoose'
 
-const getAll = async (userId, sortBy, order, tags, search) => {
+const getAll = async (userId, sortBy, order, tags, search, state) => {
   const sortOrder = order?.toLowerCase() === 'asc' ? 1 : -1
 
   const validSortFields = ['createdAt', 'title']
@@ -23,6 +23,10 @@ const getAll = async (userId, sortBy, order, tags, search) => {
     const regex = new RegExp(search, 'i')
     filter.$or = [{ title: regex }, { content: regex }, { tags: regex }]
   }
+
+  const validStates = ['active', 'archived', 'trashed']
+  const noteState = validStates.includes(state) ? state : 'active'
+  filter.state = noteState
 
   const notes = await Note.find(filter).sort({ [sortField]: sortOrder })
   return notes
@@ -86,7 +90,7 @@ const pinNote = async (userId, noteId, isPinned) => {
   return note.isPinned
 }
 
-const archiveNote = async (userId, noteId, isArchived) => {
+const updateState = async (userId, noteId, state) => {
   if (!mongoose.Types.ObjectId.isValid(noteId)) {
     throw new ApiError(StatusCodes.BAD_REQUEST, 'Invalid note ID')
   }
@@ -96,9 +100,8 @@ const archiveNote = async (userId, noteId, isArchived) => {
     throw new ApiError(StatusCodes.NOT_FOUND, 'Note not found')
   }
 
-  note.isArchived = isArchived
+  note.state = state
   await note.save()
-  return note.isArchived
 }
 
 const updateTitle = async (userId, noteId, title) => {
@@ -157,6 +160,16 @@ const updateTags = async (userId, noteId, tags) => {
   await note.save()
 }
 
+const restoreNotesFromTrash = async (userId) => {
+  const result = await Note.updateMany({ userId, state: 'trashed' }, { $set: { state: 'active' } })
+  return result.modifiedCount
+}
+
+const emptyTrash = async (userId) => {
+  const result = await Note.deleteMany({ userId, state: 'trashed' })
+  return result.deletedCount
+}
+
 export const noteService = {
   getAll,
   create,
@@ -164,9 +177,11 @@ export const noteService = {
   deleteOne,
   deleteAll,
   pinNote,
-  archiveNote,
+  updateState,
   updateTitle,
   updateContent,
   updateColor,
-  updateTags
+  updateTags,
+  restoreNotesFromTrash,
+  emptyTrash
 }

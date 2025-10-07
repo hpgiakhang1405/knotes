@@ -16,13 +16,14 @@ const noteSchema = new mongoose.Schema(
       type: [String],
       default: []
     },
-    isArchived: {
-      type: Boolean,
-      default: false
-    },
     isPinned: {
       type: Boolean,
       default: false
+    },
+    state: {
+      type: String,
+      enum: ['active', 'archived', 'trashed'],
+      default: 'active'
     },
     color: {
       type: String,

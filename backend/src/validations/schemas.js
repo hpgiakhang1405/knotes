@@ -40,6 +40,6 @@ export const colorSchema = z
   .regex(/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/, 'Color must be a valid hex code')
   .default('#FFFFFF')
 
-export const isArchivedSchema = z.boolean().default(false)
-
 export const isPinnedSchema = z.boolean().default(false)
+
+export const stateSchema = z.enum(['active', 'archived', 'trashed']).default('active')
