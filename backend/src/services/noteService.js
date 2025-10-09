@@ -28,7 +28,7 @@ const getAll = async (userId, sortBy, order, tags, search, state) => {
   const noteState = validStates.includes(state) ? state : 'active'
   filter.state = noteState
 
-  const notes = await Note.find(filter).sort({ [sortField]: sortOrder })
+  const notes = await Note.find(filter).sort({ isPinned: -1, [sortField]: sortOrder })
   return notes
 }
 
