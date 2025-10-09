@@ -4,11 +4,31 @@ import User from '../models/userModel.js'
 import ApiError from '../utils/ApiError.js'
 import mongoose from 'mongoose'
 
-const getAll = async (userId, sortBy, order, tags, search, state) => {
-  const sortOrder = order?.toLowerCase() === 'asc' ? 1 : -1
-
-  const validSortFields = ['createdAt', 'title']
-  const sortField = validSortFields.includes(sortBy) ? sortBy : 'createdAt'
+const getAll = async (userId, sortBy, tags, search, state) => {
+  const validSortValues = ['newest', 'oldest', 'title-asc', 'title-desc']
+  const sortValue = validSortValues.includes(sortBy) ? sortBy : 'newest'
+  let sortField
+  let sortOrder
+  switch (sortValue) {
+    case 'newest':
+      sortField = 'createdAt'
+      sortOrder = -1
+      break
+    case 'oldest':
+      sortField = 'createdAt'
+      sortOrder = 1
+      break
+    case 'title-asc':
+      sortField = 'title'
+      sortOrder = 1
+      break
+    case 'title-desc':
+      sortField = 'title'
+      sortOrder = -1
+      break
+    default:
+      break
+  }
 
   const filter = { userId }
 

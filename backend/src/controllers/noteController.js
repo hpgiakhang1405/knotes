@@ -4,8 +4,8 @@ import { noteService } from '../services/noteService.js'
 const getAll = async (req, res, next) => {
   try {
     const userId = req.user.userId
-    const { sortBy, order, tags, search, state } = req.query
-    const notes = await noteService.getAll(userId, sortBy, order, tags, search, state)
+    const { sortBy, tags, search, state } = req.query
+    const notes = await noteService.getAll(userId, sortBy, tags, search, state)
 
     res.status(StatusCodes.OK).json({
       message: 'Notes fetched successfully',
