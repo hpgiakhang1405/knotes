@@ -150,6 +150,19 @@ const updateTags = async (req, res, next) => {
   }
 }
 
+const restoreNotesFromArchive = async (req, res, next) => {
+  try {
+    const userId = req.user.userId
+    const count = await noteService.restoreNotesFromArchive(userId)
+
+    res.status(StatusCodes.OK).json({
+      message: `${count} notes restored from archive successfully`
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const restoreNotesFromTrash = async (req, res, next) => {
   try {
     const userId = req.user.userId
@@ -187,6 +200,7 @@ export const noteController = {
   updateContent,
   updateColor,
   updateTags,
+  restoreNotesFromArchive,
   restoreNotesFromTrash,
   emptyTrash
 }

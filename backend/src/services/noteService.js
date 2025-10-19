@@ -181,6 +181,11 @@ const updateTags = async (userId, noteId, tags) => {
   await note.save()
 }
 
+const restoreNotesFromArchive = async (userId) => {
+  const result = await Note.updateMany({ userId, state: 'archived' }, { $set: { state: 'active' } })
+  return result.modifiedCount
+}
+
 const restoreNotesFromTrash = async (userId) => {
   const result = await Note.updateMany({ userId, state: 'trashed' }, { $set: { state: 'active' } })
   return result.modifiedCount
@@ -203,6 +208,7 @@ export const noteService = {
   updateContent,
   updateColor,
   updateTags,
+  restoreNotesFromArchive,
   restoreNotesFromTrash,
   emptyTrash
 }

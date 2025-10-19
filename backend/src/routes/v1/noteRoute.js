@@ -51,6 +51,8 @@ Router.patch(
   noteController.updateTags
 )
 
+Router.patch('/archive/restore', verifyUserMiddleware, noteController.restoreNotesFromArchive)
+
 Router.patch('/trash/restore', verifyUserMiddleware, noteController.restoreNotesFromTrash)
 Router.delete('/trash/empty', verifyUserMiddleware, noteController.emptyTrash)
 
