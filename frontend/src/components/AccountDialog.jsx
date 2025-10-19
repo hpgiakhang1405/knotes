@@ -49,7 +49,7 @@ const AccountForm = ({ className }) => {
     toast.promise(changeAvatarMutation.mutateAsync(formData), {
       loading: 'Uploading avatar...',
       success: (res) => {
-        queryClient.invalidateQueries(['me'])
+        queryClient.invalidateQueries({ queryKey: ['me'] })
         return res.data.message
       },
       error: getErrorMessage
@@ -60,7 +60,7 @@ const AccountForm = ({ className }) => {
     try {
       const res = await changeNameMutation.mutateAsync(data)
       toast.success(res.data.message)
-      queryClient.invalidateQueries(['me'])
+      queryClient.invalidateQueries({ queryKey: ['me'] })
     } catch (error) {
       toast.error(getErrorMessage(error))
     }

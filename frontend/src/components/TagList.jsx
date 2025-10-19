@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { z } from 'zod'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
@@ -27,12 +27,29 @@ const nameSchema = z.object({
 })
 
 const TagList = ({ list, className, canEdit, onSubmit }) => {
+  const [newTagOpen, setNewTagOpen] = useState(false)
+
   const form = useForm({
     resolver: zodResolver(nameSchema),
     defaultValues: {
       name: ''
     }
   })
+
+  const handleAddTag = async (data) => {
+    const isIncluded = list.includes(data.name)
+    if (!isIncluded) {
+      const newTagList = [...list, data.name]
+      await onSubmit(newTagList)
+    }
+    setNewTagOpen(false)
+    form.reset()
+  }
+
+  const handleRemoveTag = async (tagToRemove) => {
+    const newTagList = list.filter((tag) => tag !== tagToRemove)
+    await onSubmit(newTagList)
+  }
 
   if (canEdit)
     return (
@@ -56,14 +73,14 @@ const TagList = ({ list, className, canEdit, onSubmit }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Yes, remove tag</AlertDialogAction>
+                  <AlertDialogAction onClick={() => handleRemoveTag(tag)}>Yes, remove tag</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
           </Button>
         ))}
 
-        <Popover>
+        <Popover open={newTagOpen} onOpenChange={setNewTagOpen}>
           <PopoverTrigger asChild>
             <Button type="button" variant="secondary" size="sm">
               <Plus />
@@ -72,7 +89,7 @@ const TagList = ({ list, className, canEdit, onSubmit }) => {
           </PopoverTrigger>
           <PopoverContent sideOffset={8}>
             <Form {...form}>
-              <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
+              <form noValidate onSubmit={form.handleSubmit(handleAddTag)} className="w-full space-y-2">
                 <FormField
                   control={form.control}
                   name="name"

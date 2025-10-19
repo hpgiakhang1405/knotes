@@ -57,7 +57,7 @@ import { useCursorVisibility } from '~/hooks/use-cursor-visibility'
 import { useWindowSize } from '~/hooks/use-window-size'
 
 // --- Lib ---
-import { handleImageUpload, MAX_FILE_SIZE } from '~/lib/tiptap-utils'
+import { MAX_FILE_SIZE } from '~/lib/tiptap-utils'
 
 // --- Styles ---
 import '~/components/tiptap-templates/simple/simple-editor.scss'
@@ -128,13 +128,14 @@ const MobileToolbarContent = ({ type, onBack }) => (
   </>
 )
 
-export function SimpleEditor({ content, onEdit }) {
+export function SimpleEditor({ content, text, onEdit, onUploadImage, onUploadImageError }) {
   const isMobile = useIsMobile()
   const windowSize = useWindowSize()
   const [mobileView, setMobileView] = React.useState('main')
   const toolbarRef = React.useRef(null)
 
   const [rawContent, setRawContent] = React.useState(JSON.stringify(content))
+  const [textContent, setTextContent] = React.useState(text)
   const debouncedContent = useDebounce(rawContent, 1200)
 
   const isFirstRender = React.useRef(true)
@@ -146,7 +147,7 @@ export function SimpleEditor({ content, onEdit }) {
     }
 
     if (!debouncedContent) return
-    onEdit?.(debouncedContent)
+    onEdit?.(debouncedContent, textContent)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedContent])
 
@@ -175,9 +176,9 @@ export function SimpleEditor({ content, onEdit }) {
       ImageUploadNode.configure({
         accept: 'image/*',
         maxSize: MAX_FILE_SIZE,
-        limit: 3,
-        upload: handleImageUpload,
-        onError: (error) => console.error('Upload failed:', error)
+        limit: 1,
+        upload: onUploadImage,
+        onError: onUploadImageError
       }),
       TrailingNode,
       Link.configure({ openOnClick: false }),
@@ -188,7 +189,9 @@ export function SimpleEditor({ content, onEdit }) {
     content: content,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON()
+      const text = editor.getText()
       setRawContent(JSON.stringify(json))
+      setTextContent(text.replace(/\s+/g, ' ').trim())
     }
   })
 

@@ -30,7 +30,7 @@ const NavUser = () => {
     }
   }
 
-  if (!user) return <h1>User...</h1>
+  if (!user) return <></>
 
   return (
     <SidebarMenu>

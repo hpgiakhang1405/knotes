@@ -2,22 +2,25 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { cn } from '~/lib/utils'
 import NoteCard from './NoteCard'
+import { Skeleton } from './ui/skeleton'
 
-const NoteList = ({ data, className, type }) => {
+const NoteList = ({ data, className, type, isLoading }) => {
+  if (isLoading) return <></>
+
   return (
     <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4', className)}>
       {data && data.length > 0 ? (
         data.map((note) => (
-          <Link key={note.id} to={`${note.id}`}>
+          <Link key={note._id} to={`${note._id}`}>
             <NoteCard
-              id={note.id}
               title={note.title}
               content={note.content}
+              textContent={note.textContent}
               tags={note.tags}
-              createdAt={note.createdAt}
               updatedAt={note.updatedAt}
-              type={type}
+              isPin={note.isPinned}
               className="w-full h-full"
+              type={type}
             />
           </Link>
         ))

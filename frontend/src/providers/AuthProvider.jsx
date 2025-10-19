@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
   }, [data])
 
   useEffect(() => {
-    if (isAuthenticated) queryClient.invalidateQueries(['me'])
+    if (isAuthenticated) queryClient.invalidateQueries({ queryKey: ['me'] })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
 

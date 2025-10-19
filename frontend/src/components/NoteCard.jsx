@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '~/lib/utils'
+import { cn, timeAgo } from '~/lib/utils'
 import { ArchiveRestore, Ellipsis, Pin, PinOff, RotateCcw, Trash2, X } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Button } from './ui/button'
@@ -58,7 +58,7 @@ const TrashedDropdownMenuItem = () => (
   </>
 )
 
-const NoteCard = ({ id, title, content, tags, createdAt, updatedAt, isPin, className, type }) => {
+const NoteCard = ({ title, content, textContent, tags, updatedAt, isPin, className, type }) => {
   return (
     <Card className={cn('relative hover:bg-primary-foreground transition-all gap-0 group select-none', className)}>
       <DropdownMenu>
@@ -87,12 +87,12 @@ const NoteCard = ({ id, title, content, tags, createdAt, updatedAt, isPin, class
 
       <CardHeader>
         <CardTitle className="flex flex-col gap-2 leading-normal">
-          <div className="text-muted-foreground text-sm font-normal">Last edited: 7 days ago</div>
+          <div className="text-muted-foreground text-sm font-normal">Last edited: {timeAgo(updatedAt)}</div>
           <div className="truncate-2">{title}</div>
         </CardTitle>
       </CardHeader>
       <CardContent className="truncate-2 text-muted-foreground mb-4">
-        <p>{content}</p>
+        <p>{textContent}</p>
       </CardContent>
       {tags && tags.length > 0 && (
         <CardFooter>

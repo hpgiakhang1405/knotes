@@ -42,7 +42,8 @@ const AuthPage = ({ isResetPassword }) => {
   const { setToken } = useUserStore()
 
   const handleTabChange = (value) => {
-    setSearchParams({ mode: value })
+    searchParams.set('mode', value)
+    setSearchParams(searchParams)
   }
 
   const handleSignUp = async (data) => {
