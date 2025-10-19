@@ -138,7 +138,7 @@ const updateTitle = async (userId, noteId, title) => {
   await note.save()
 }
 
-const updateContent = async (userId, noteId, content) => {
+const updateContent = async (userId, noteId, content, textContent) => {
   if (!mongoose.Types.ObjectId.isValid(noteId)) {
     throw new ApiError(StatusCodes.BAD_REQUEST, 'Invalid note ID')
   }
@@ -149,6 +149,7 @@ const updateContent = async (userId, noteId, content) => {
   }
 
   note.content = content
+  note.textContent = textContent
   await note.save()
 }
 

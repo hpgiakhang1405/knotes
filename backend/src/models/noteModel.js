@@ -12,6 +12,10 @@ const noteSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    textContent: {
+      type: String,
+      default: ''
+    },
     tags: {
       type: [String],
       default: []

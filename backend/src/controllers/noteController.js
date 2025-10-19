@@ -109,8 +109,8 @@ const updateContent = async (req, res, next) => {
   try {
     const userId = req.user.userId
     const noteId = req.params.id
-    const { content } = req.body
-    await noteService.updateContent(userId, noteId, content)
+    const { content, textContent } = req.body
+    await noteService.updateContent(userId, noteId, content, textContent)
 
     res.status(StatusCodes.OK).json({
       message: 'Note content updated successfully'

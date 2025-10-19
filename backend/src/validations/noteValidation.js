@@ -4,6 +4,7 @@ import { titleSchema, contentSchema, tagsSchema, colorSchema, isPinnedSchema, st
 const createNoteSchema = z.object({
   title: titleSchema,
   content: contentSchema,
+  textContent: contentSchema,
   tags: tagsSchema,
   color: colorSchema,
   isPinned: isPinnedSchema,
@@ -23,7 +24,8 @@ const updateTitleSchema = z.object({
 })
 
 const updateContentSchema = z.object({
-  content: contentSchema
+  content: contentSchema,
+  textContent: contentSchema
 })
 
 const updateColorSchema = z.object({
