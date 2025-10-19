@@ -38,6 +38,30 @@ export const useNoteApi = ({ params, noteId }) => {
     mutationFn: ({ noteId, data }) => noteApi.updateTags(noteId, data)
   })
 
+  const pinNoteMutation = useMutation({
+    mutationFn: ({ noteId, data }) => noteApi.pin(noteId, data)
+  })
+
+  const changeNoteStateMutation = useMutation({
+    mutationFn: ({ noteId, data }) => noteApi.changeState(noteId, data)
+  })
+
+  const deleteOneNoteMutation = useMutation({
+    mutationFn: noteApi.deleteOne
+  })
+
+  const restoreFromArchiveMutation = useMutation({
+    mutationFn: noteApi.restoreFromArchive
+  })
+
+  const restoreFromTrashMutation = useMutation({
+    mutationFn: noteApi.restoreFromTrash
+  })
+
+  const emptyTrashMutation = useMutation({
+    mutationFn: noteApi.emptyTrash
+  })
+
   return {
     queryClient,
     getAllNotesQuery,
@@ -45,6 +69,12 @@ export const useNoteApi = ({ params, noteId }) => {
     getOneNoteQuery,
     updateNoteTitleMutation,
     updateNoteContentMutation,
-    updateNoteTagsMutation
+    updateNoteTagsMutation,
+    pinNoteMutation,
+    changeNoteStateMutation,
+    deleteOneNoteMutation,
+    restoreFromArchiveMutation,
+    restoreFromTrashMutation,
+    emptyTrashMutation
   }
 }

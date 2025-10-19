@@ -39,7 +39,7 @@ const NotesPage = () => {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">My Notes</h3>
         <div className="flex flex-wrap items-center gap-2">
-          <SortBy onChange={handleSortByChange} value={sortBy} />
+          {data?.data.notes.length > 1 && <SortBy onChange={handleSortByChange} value={sortBy} />}
           <Button type="button" onClick={() => handleAddNewNote()} disabled={createNoteMutation.isPending}>
             <Plus /> Add New Note
           </Button>

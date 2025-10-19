@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { cn } from '~/lib/utils'
 import NoteCard from './NoteCard'
-import { Skeleton } from './ui/skeleton'
 
 const NoteList = ({ data, className, type, isLoading }) => {
   if (isLoading) return <></>
@@ -13,6 +12,7 @@ const NoteList = ({ data, className, type, isLoading }) => {
         data.map((note) => (
           <Link key={note._id} to={`${note._id}`}>
             <NoteCard
+              id={note._id}
               title={note.title}
               content={note.content}
               textContent={note.textContent}
@@ -25,7 +25,7 @@ const NoteList = ({ data, className, type, isLoading }) => {
           </Link>
         ))
       ) : (
-        <div className="col-span-full text-center text-muted-foreground">No notes available.</div>
+        <div className="col-span-full text-center text-muted-foreground my-10">No notes available.</div>
       )}
     </div>
   )

@@ -4,22 +4,41 @@ import NoteList from '~/components/NoteList'
 import { Button } from '~/components/ui/button'
 import { useSearchParams } from 'react-router-dom'
 import { useNoteApi } from '~/hooks/apis/useNoteApi'
+import { toast } from 'sonner'
+import { getErrorMessage } from '~/lib/utils'
 
 const ArchivedPage = () => {
   const [params] = useSearchParams()
   const { sortBy, tags, search, state = 'archived' } = Object.fromEntries(params)
   const paramsObj = { sortBy, tags, search, state }
 
-  const { getAllNotesQuery } = useNoteApi({ params: paramsObj })
+  const { queryClient, restoreFromArchiveMutation, getAllNotesQuery } = useNoteApi({ params: paramsObj })
   const { data, isLoading } = getAllNotesQuery
+
+  const handleRestoreAll = async () => {
+    try {
+      const res = await restoreFromArchiveMutation.mutateAsync()
+      toast.success(res.data.message)
+      queryClient.invalidateQueries({ queryKey: ['notes'] })
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    }
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Archived</h3>
-        <Button type="button" variant="outline">
-          <RotateCcw /> Restore All
-        </Button>
+        {data?.data.notes.length > 0 && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleRestoreAll}
+            disabled={restoreFromArchiveMutation.isPending}
+          >
+            <RotateCcw /> Restore All
+          </Button>
+        )}
       </div>
       <NoteList type="archive" data={data?.data.notes} isLoading={isLoading} />
     </div>

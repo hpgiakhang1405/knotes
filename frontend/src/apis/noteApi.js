@@ -29,6 +29,36 @@ const noteApi = {
   updateTags: (noteId, data) => {
     const url = `/note/${noteId}/tags`
     return axiosClient.patch(url, data)
+  },
+
+  pin: (noteId, data) => {
+    const url = `/note/${noteId}/pin`
+    return axiosClient.patch(url, data)
+  },
+
+  changeState: (noteId, data) => {
+    const url = `/note/${noteId}/state`
+    return axiosClient.patch(url, data)
+  },
+
+  deleteOne: (noteId) => {
+    const url = `/note/${noteId}`
+    return axiosClient.delete(url)
+  },
+
+  restoreFromArchive: () => {
+    const url = `/note/archive/restore`
+    return axiosClient.patch(url)
+  },
+
+  restoreFromTrash: () => {
+    const url = `/note/trash/restore`
+    return axiosClient.patch(url)
+  },
+
+  emptyTrash: () => {
+    const url = `/note/trash/empty`
+    return axiosClient.delete(url)
   }
 }
 
