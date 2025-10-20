@@ -7,7 +7,7 @@ import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
 import { useDebounce } from '~/hooks/useDebounce'
 
-const TitleEditor = ({ title, className, onEdit }) => {
+const TitleEditor = ({ title, className, onEdit, editable }) => {
   const [rawTitle, setRawTitle] = useState(title)
   const debouncedTitle = useDebounce(rawTitle, 1200)
 
@@ -25,6 +25,7 @@ const TitleEditor = ({ title, className, onEdit }) => {
   }, [debouncedTitle])
 
   const titleEditor = useEditor({
+    editable,
     immediatelyRender: true,
     editorProps: {
       attributes: {

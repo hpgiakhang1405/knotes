@@ -128,7 +128,7 @@ const MobileToolbarContent = ({ type, onBack }) => (
   </>
 )
 
-export function SimpleEditor({ content, text, onEdit, onUploadImage, onUploadImageError }) {
+export function SimpleEditor({ content, text, onEdit, onUploadImage, onUploadImageError, editable }) {
   const isMobile = useIsMobile()
   const windowSize = useWindowSize()
   const [mobileView, setMobileView] = React.useState('main')
@@ -152,6 +152,7 @@ export function SimpleEditor({ content, text, onEdit, onUploadImage, onUploadIma
   }, [debouncedContent])
 
   const editor = useEditor({
+    editable,
     immediatelyRender: true,
     editorProps: {
       attributes: {

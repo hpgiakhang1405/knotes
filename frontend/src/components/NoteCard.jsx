@@ -149,6 +149,7 @@ const NoteCard = ({ id, title, content, textContent, tags, updatedAt, isPin, cla
       const res = await changeNoteStateMutation.mutateAsync({ noteId: id, data: { state } })
       toast.success(res.data.message)
       queryClient.invalidateQueries({ queryKey: ['notes'] })
+      queryClient.removeQueries({ queryKey: ['note', id] })
     } catch (error) {
       toast.error(getErrorMessage(error))
     }

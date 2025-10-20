@@ -94,6 +94,7 @@ const NoteDetailPage = () => {
           className="text-xl md:text-2xl font-bold mb-8"
           title={data?.data.note.title}
           onEdit={handleTitleEdit}
+          editable={data?.data.note.state !== 'trashed'}
         />
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">
@@ -115,7 +116,11 @@ const NoteDetailPage = () => {
             <div className="text-muted-foreground">Tags</div>
           </div>
           <div className="col-span-8">
-            <TagList list={data?.data.note.tags} canEdit onSubmit={handleAddTag} />
+            <TagList
+              list={data?.data.note.tags}
+              canEdit={data?.data.note.state !== 'trashed'}
+              onSubmit={handleAddTag}
+            />
           </div>
         </div>
       </div>
@@ -125,6 +130,7 @@ const NoteDetailPage = () => {
         onEdit={handleContentEdit}
         onUploadImage={handleUploadImage}
         onUploadImageError={handleUploadImageError}
+        editable={data?.data.note.state !== 'trashed'}
       />
     </>
   )
